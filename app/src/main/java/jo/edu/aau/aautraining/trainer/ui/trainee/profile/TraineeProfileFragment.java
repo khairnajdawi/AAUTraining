@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -80,6 +81,8 @@ public class TraineeProfileFragment extends MyFragment implements View.OnClickLi
 
         root.findViewById(R.id.trainee_profile_send_msg_btn).setOnClickListener(this);
         root.findViewById(R.id.trainee_profile_schedule_btn).setOnClickListener(this);
+        root.findViewById(R.id.trainee_profile_supervisor_btn).setOnClickListener(this);
+        root.findViewById(R.id.trainee_profile_finish_btn).setOnClickListener(this);
 
         return root;
     }
@@ -132,22 +135,24 @@ public class TraineeProfileFragment extends MyFragment implements View.OnClickLi
                                         stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.THREE);
                                         break;
                                 }
-                                String requiredHours =  profileJsonObject.getString("required_hours");
+                                String requiredHours = profileJsonObject.getString("required_hours");
                                 traineeProfileViewModel.setRequiredHours(requiredHours);
                                 String passedHours = profileJsonObject.getString("passed_hours");
                                 String remainHours = profileJsonObject.getString("remain_hours");
                                 String trainingHoursText = String.format(Locale.US, "%sH passed / %sH remain", passedHours, remainHours);
 
-                                double passedValue = Integer.parseInt(passedHours.split(":")[0])*60 + Integer.parseInt(passedHours.split(":")[1]);
-                                double requiredValue = Integer.parseInt(requiredHours.split(":")[0])*60 + Integer.parseInt(requiredHours.split(":")[1]);
-                                int passedPercent = (int) ((passedValue / requiredValue)*100);
-                                if(passedPercent>100) passedPercent=100;
+                                double passedValue = Integer.parseInt(passedHours.split(":")[0]) * 60 + Integer.parseInt(passedHours.split(":")[1]);
+                                double requiredValue = Integer.parseInt(requiredHours.split(":")[0]) * 60 + Integer.parseInt(requiredHours.split(":")[1]);
+                                int passedPercent = (int) ((passedValue / requiredValue) * 100);
+                                if (passedPercent > 100) passedPercent = 100;
                                 pictureProgressBar.setProgress(passedPercent);
                                 traineeProfileViewModel.setTrainingHoursText(trainingHoursText);
                                 traineeProfileViewModel.setPassedHours(passedHours);
                                 traineeProfileViewModel.setStartDate(profileJsonObject.getString("start_date"));
                                 traineeProfileViewModel.setFinishDate(profileJsonObject.getString("finish_date"));
 
+                                traineeProfileViewModel.setSupervisorId(profileJsonObject.getInt("supervisor_id"));
+                                traineeProfileViewModel.setSupervisorName(profileJsonObject.getString("supervisor_name"));
                             } else {
                                 activity.showSnackbar(R.string.error);
                             }
@@ -184,7 +189,7 @@ public class TraineeProfileFragment extends MyFragment implements View.OnClickLi
         switch (view.getId()) {
             case R.id.trainee_profile_send_msg_btn:
                 Bundle bundle = new Bundle();
-                bundle.putInt("trainer_id", activity.getTrainerId());
+                bundle.putInt("contact_type", 1);
                 bundle.putInt("contact_id", traineeId);
                 bundle.putString("contact_name", traineeProfileViewModel.getTraineeName().getValue());
                 Navigation.createNavigateOnClickListener(R.id.action_trainer_nav_trainee_profile_to_trainer_nav_trainee_chat, bundle).onClick(view);
@@ -197,6 +202,10 @@ public class TraineeProfileFragment extends MyFragment implements View.OnClickLi
                 Navigation.createNavigateOnClickListener(R.id.action_trainer_nav_trainee_profile_to_trainer_nav_trainee_schedule, bundle2).onClick(view);
                 break;
             case R.id.trainee_profile_supervisor_btn:
+                Toast.makeText(activity, "Contact Supervisor", Toast.LENGTH_SHORT).show();
+                Bundle bundle3 = new Bundle();
+                bundle3.putInt("supervisor_id", traineeProfileViewModel.getSupervisorId().getValue());
+                Navigation.createNavigateOnClickListener(R.id.action_trainer_nav_trainee_profile_to_trainer_nav_supervisor, bundle3).onClick(view);
                 break;
             case R.id.trainee_profile_finish_btn:
                 break;

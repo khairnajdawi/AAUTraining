@@ -45,17 +45,22 @@
         android:id="@+id/trainer_nav_trainee_profile"
         android:name="jo.edu.aau.aautraining.trainer.ui.trainee.profile.TraineeProfileFragment"
         android:label="@string/trainee_profile"
-        tools:layout="@layout/trainer_trainee_profile_fragment" >
-        <argument android:name="training_id"
-            app:argType="integer"/>
-        <argument android:name="trainee_id"
-            app:argType="integer"/>
+        tools:layout="@layout/trainer_trainee_profile_fragment">
+        <argument
+            android:name="training_id"
+            app:argType="integer" />
+        <argument
+            android:name="trainee_id"
+            app:argType="integer" />
         <action
             android:id="@+id/action_trainer_nav_trainee_profile_to_trainer_nav_trainee_chat"
             app:destination="@id/trainer_nav_chat" />
         <action
             android:id="@+id/action_trainer_nav_trainee_profile_to_trainer_nav_trainee_schedule"
             app:destination="@id/trainer_nav_trainee_schedule" />
+        <action
+            android:id="@+id/action_trainer_nav_trainee_profile_to_trainer_nav_supervisor"
+            app:destination="@id/trainer_nav_supervisor" />
     </fragment>
 
     <fragment
@@ -104,10 +109,25 @@
         android:id="@+id/trainer_nav_trainee_schedule_add"
         android:name="jo.edu.aau.aautraining.trainer.ui.trainee.schedule.TraineeScheduleAddFragment"
         android:label="@string/add_trainee_schedule"
-        tools:layout="@layout/trainee_schedule_add_fragment" >
-        <argument android:name="trainee_name"
-            app:argType="string"/>
-        <argument android:name="training_id"
-            app:argType="integer"/>
+        tools:layout="@layout/trainee_schedule_add_fragment">
+        <argument
+            android:name="trainee_name"
+            app:argType="string" />
+        <argument
+            android:name="training_id"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/trainer_nav_supervisor"
+        android:name="jo.edu.aau.aautraining.trainer.ui.trainee.supervisor.SupervisorFragment"
+        android:label="@string/contact_supervisor"
+        tools:layout="@layout/trainer_supervisor_fragment">
+        <argument
+            android:name="supervisor_id"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_trainer_nav_supervisor_to_trainer_nav_chat"
+            app:destination="@id/trainer_nav_chat" />
     </fragment>
 </navigation>
