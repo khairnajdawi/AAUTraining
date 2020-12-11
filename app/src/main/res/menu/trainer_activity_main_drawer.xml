@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/trainer_nav_profile"
+            android:icon="@drawable/ic_student_logo"
+            android:title="@string/Profile" />
+        <item
+            android:id="@+id/trainer_nav_schedule"
+            android:icon="@drawable/ic_baseline_calendar_today_24"
+            android:title="@string/my_schedule" />
+        <item
+            android:id="@+id/trainer_nav_trainee_list"
+            android:icon="@drawable/ic_student_logo"
+            android:title="@string/trainee_list" />
+        <item
+            android:id="@+id/trainer_nav_logout"
+            android:icon="@drawable/ic_chat_logo"
+            android:title="@string/logout" />
+    </group>
+</menu>

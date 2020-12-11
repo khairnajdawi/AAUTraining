@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/trainer_mobile_navigation"
+    app:startDestination="@+id/trainer_nav_profile">
+
+    <fragment
+        android:id="@+id/trainer_nav_profile"
+        android:name="jo.edu.aau.aautraining.trainer.ui.profile.ProfileFragment"
+        android:label="@string/Profile"
+        tools:layout="@layout/trainer_profile_fragment" >
+    </fragment>
+    <fragment
+        android:id="@+id/trainer_nav_logout"
+        android:name="jo.edu.aau.aautraining.trainer.ui.logout.TrainerLogoutFragment"
+        android:label="@string/Profile"
+        tools:layout="@layout/trainer_logout_fragment" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/trainer_nav_schedule"
+        android:name="jo.edu.aau.aautraining.trainer.ui.schedule.ScheduleFragment"
+        android:label="@string/my_schedule"
+        tools:layout="@layout/trainer_schedule_fragment" >
+        <action
+            android:id="@+id/action_trainer_nav_schedule_to_trainer_nav_trainee_schedule_edit"
+            app:destination="@id/trainer_nav_trainee_schedule_edit" />
+        <action
+            android:id="@+id/action_trainer_nav_schedule_to_trainer_nav_trainee_schedule_add"
+            app:destination="@id/trainer_nav_trainee_schedule_add" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/trainer_nav_trainee_list"
+        android:name="jo.edu.aau.aautraining.trainer.ui.trainee.TrainerTraineeFragment"
+        android:label="@string/trainee_list"
+        tools:layout="@layout/trainer_trainee_fragment" >
+        <action
+            android:id="@+id/action_trainer_nav_trainee_list_to_trainer_nav_trainee_profile"
+            app:destination="@id/trainer_nav_trainee_profile" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/trainer_nav_trainee_profile"
+        android:name="jo.edu.aau.aautraining.trainer.ui.trainee.profile.TraineeProfileFragment"
+        android:label="@string/trainee_profile"
+        tools:layout="@layout/trainer_trainee_profile_fragment" >
+        <argument android:name="training_id"
+            app:argType="integer"/>
+        <argument android:name="trainee_id"
+            app:argType="integer"/>
+        <action
+            android:id="@+id/action_trainer_nav_trainee_profile_to_trainer_nav_trainee_chat"
+            app:destination="@id/trainer_nav_chat" />
+        <action
+            android:id="@+id/action_trainer_nav_trainee_profile_to_trainer_nav_trainee_schedule"
+            app:destination="@id/trainer_nav_trainee_schedule" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/trainer_nav_chat"
+        android:name="jo.edu.aau.aautraining.trainer.ui.chat.TrainerChatFragment"
+        android:label="@string/trainee_profile"
+        tools:layout="@layout/trainer_chat_fragment" >
+        <argument android:name="contact_id"
+            app:argType="integer"/>
+        <argument android:name="contact_name"
+            app:argType="string"/>
+        <argument android:name="contact_type"
+            app:argType="integer"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/trainer_nav_trainee_schedule"
+        android:name="jo.edu.aau.aautraining.trainer.ui.trainee.schedule.TrainerTraineeScheduleFragment"
+        android:label="@string/trainee_schedule"
+        tools:layout="@layout/trainer_trainee_schedule_fragment" >
+        <argument android:name="trainee_id"
+            app:argType="integer"/>
+        <argument android:name="trainee_name"
+            app:argType="string"/>
+        <argument android:name="training_id"
+            app:argType="integer"/>
+        <action
+            android:id="@+id/action_trainer_nav_trainee_schedule_to_trainer_nav_trainee_schedule_edit"
+            app:destination="@id/trainer_nav_trainee_schedule_edit" />
+        <action
+            android:id="@+id/action_trainer_nav_trainee_schedule_to_trainer_nav_trainee_schedule_add"
+            app:destination="@id/trainer_nav_trainee_schedule_add" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/trainer_nav_trainee_schedule_edit"
+        android:name="jo.edu.aau.aautraining.trainer.ui.trainee.schedule.TraineeScheduleEditFragment"
+        android:label="@string/edit_trainee_schedule"
+        tools:layout="@layout/trainee_schedule_edit_fragment" >
+        <argument android:name="trainee_name"
+            app:argType="string"/>
+        <argument android:name="schedule_id"
+            app:argType="integer"/>
+    </fragment>
+    <fragment
+        android:id="@+id/trainer_nav_trainee_schedule_add"
+        android:name="jo.edu.aau.aautraining.trainer.ui.trainee.schedule.TraineeScheduleAddFragment"
+        android:label="@string/add_trainee_schedule"
+        tools:layout="@layout/trainee_schedule_add_fragment" >
+        <argument android:name="trainee_name"
+            app:argType="string"/>
+        <argument android:name="training_id"
+            app:argType="integer"/>
+    </fragment>
+</navigation>
