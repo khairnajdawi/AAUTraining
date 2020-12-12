@@ -61,6 +61,9 @@
         <action
             android:id="@+id/action_trainer_nav_trainee_profile_to_trainer_nav_supervisor"
             app:destination="@id/trainer_nav_supervisor" />
+        <action
+            android:id="@+id/action_trainer_nav_trainee_profile_to_trainer_nav_finish_training"
+            app:destination="@id/trainer_nav_finish_training" />
     </fragment>
 
     <fragment
@@ -129,5 +132,14 @@
         <action
             android:id="@+id/action_trainer_nav_supervisor_to_trainer_nav_chat"
             app:destination="@id/trainer_nav_chat" />
+    </fragment>
+    <fragment
+        android:id="@+id/trainer_nav_finish_training"
+        android:name="jo.edu.aau.aautraining.trainer.ui.trainee.finish.TraineeFinishFragment"
+        android:label="@string/finish_training"
+        tools:layout="@layout/trainee_finish_fragment">
+        <argument
+            android:name="training_id"
+            app:argType="integer" />
     </fragment>
 </navigation>

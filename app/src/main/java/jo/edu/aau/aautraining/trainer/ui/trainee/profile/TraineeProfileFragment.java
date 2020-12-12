@@ -202,12 +202,14 @@ public class TraineeProfileFragment extends MyFragment implements View.OnClickLi
                 Navigation.createNavigateOnClickListener(R.id.action_trainer_nav_trainee_profile_to_trainer_nav_trainee_schedule, bundle2).onClick(view);
                 break;
             case R.id.trainee_profile_supervisor_btn:
-                Toast.makeText(activity, "Contact Supervisor", Toast.LENGTH_SHORT).show();
                 Bundle bundle3 = new Bundle();
                 bundle3.putInt("supervisor_id", traineeProfileViewModel.getSupervisorId().getValue());
                 Navigation.createNavigateOnClickListener(R.id.action_trainer_nav_trainee_profile_to_trainer_nav_supervisor, bundle3).onClick(view);
                 break;
             case R.id.trainee_profile_finish_btn:
+                Bundle bundle4 = new Bundle();
+                bundle4.putInt("training_id", trainingId);
+                Navigation.createNavigateOnClickListener(R.id.action_trainer_nav_trainee_profile_to_trainer_nav_finish_training, bundle4).onClick(view);
                 break;
         }
     }

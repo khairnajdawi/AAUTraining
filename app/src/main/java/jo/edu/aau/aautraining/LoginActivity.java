@@ -183,9 +183,9 @@ public class LoginActivity extends MyAppCompatActivity {
                                         if (userRole.equalsIgnoreCase("trainer")) {
                                             Intent i = new Intent(LoginActivity.this, TrainersMainActivity.class);
                                             JSONObject infoJsonObject = jsonObject.getJSONObject("extra_info");
-                                            i.putExtra("trainer_id",infoJsonObject.getString("trainer_id"));
-                                            i.putExtra("img_link",infoJsonObject.getString("img_link"));
-                                            i.putExtra("full_name",infoJsonObject.getString("full_name"));
+                                            i.putExtra("trainer_id", infoJsonObject.getInt("trainer_id"));
+                                            i.putExtra("img_link", infoJsonObject.getString("img_link"));
+                                            i.putExtra("full_name", infoJsonObject.getString("full_name"));
                                             startActivity(i);
                                             finish();
                                             return;

@@ -55,7 +55,7 @@ public class TrainersMainActivity extends MyAppCompatActivity {
 
     @Override
     protected void onStart() {
-        trainerId = Integer.parseInt(getIntent().getExtras().getString("trainer_id"));
+        trainerId = getIntent().getExtras().getInt("trainer_id");
         setTrainerId(trainerId);
         super.onStart();
     }

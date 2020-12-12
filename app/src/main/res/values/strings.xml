@@ -80,8 +80,10 @@
         <item>@string/absence_with_reason</item>
         <item>@string/absence_without_reason</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="finish_reason_array">
+        <item>@string/frequent_absence</item>
+        <item>@string/complete_required_hours</item>
+    </string-array>
     <string name="add_trainee_schedule">Add Trainee Schedule</string>
     <string name="enter_schedule_date">Enter  schedule date</string>
     <string name="enter_schedule_place">Enter Schedule Place</string>
@@ -95,4 +97,12 @@
     <string name="enter_training_place">Enter training place</string>
     <string name="enter_start_time">Enter start time</string>
     <string name="enter_end_time">Enter end time</string>
+    <string name="recommendation">Recommendation</string>
+    <string name="finish_reason">Finish Reason</string>
+    <string name="attend_commitment">Attend Commitment</string>
+    <string name="learning_well">Learning Well</string>
+    <string name="learning_ability">Learning Ability</string>
+    <string name="applying_skills">Applying Learnt skills</string>
+    <string name="frequent_absence">Frequent Absence</string>
+    <string name="complete_required_hours">Complete Required Hours</string>
 </resources>
