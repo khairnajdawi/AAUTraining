@@ -1,16 +1,18 @@
-package jo.edu.aau.aautraining.student.ui.profile;
+package jo.edu.aau.aautraining.supervisor.ui.students.profile;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -23,7 +25,6 @@ import com.yanzhikai.pictureprogressbar.PictureProgressBar;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Time;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -34,26 +35,29 @@ import jo.edu.aau.aautraining.shared.MyFragment;
 import jo.edu.aau.aautraining.shared.MySharedPreference;
 import jo.edu.aau.aautraining.student.StudentMainActivity;
 
-public class ProfileFragment extends MyFragment {
+public class SupervisorStudentProfileFragment extends MyFragment implements View.OnClickListener {
 
-    private ProfileViewModel profileViewModel;
+    String[] descriptionData = {"Start", "Training", "Trainer Report", "Complete", "Success"};
+    private SupervisorStudentProfileViewModel profileViewModel;
     private PictureProgressBar pictureProgressBar;
-    private int studentId=0,trainingId=0;
+    private int studentId = 0, trainingId = 0;
     private StateProgressBar stateProgressBar;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        profileViewModel =
-                ViewModelProviders.of(this).get(ProfileViewModel.class);
-        View root = inflater.inflate(R.layout.student_fragment_profile, container, false);
+    public static SupervisorStudentProfileFragment newInstance() {
+        return new SupervisorStudentProfileFragment();
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        profileViewModel = ViewModelProviders.of(this).get(SupervisorStudentProfileViewModel.class);
+        View root = inflater.inflate(R.layout.supervisor_student_profile_fragment, container, false);
 
         final TextView nameTextView = root.findViewById(R.id.student_profile_name_tv);
         profileViewModel.getStudentName().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 nameTextView.setText(s);
-                StudentMainActivity activity = (StudentMainActivity) getActivity();
-                activity.setHeaderName(s);
             }
         });
         final TextView facultyNameTV = root.findViewById(R.id.student_profile_faculty_name_tv);
@@ -108,11 +112,26 @@ public class ProfileFragment extends MyFragment {
                 endDateTextView.setText(s);
             }
         });
+        final TextView attendDaysTextView = root.findViewById(R.id.student_profile_attend_days_tv);
+        profileViewModel.getAttendDaysCount().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer daysCount) {
+                attendDaysTextView.setText(String.valueOf(daysCount));
+            }
+        });
+        final TextView absenceDaysTextView = root.findViewById(R.id.student_profile_absence_days_tv);
+        profileViewModel.getAttendDaysCount().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer daysCount) {
+                absenceDaysTextView.setText(String.valueOf(daysCount));
+            }
+        });
+
 
         final TextView requiredHoursTextView = root.findViewById(R.id.student_profile_required_hours_tv);
         profileViewModel.getRequiredHours().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
-            public void onChanged(@Nullable String s ) {
+            public void onChanged(@Nullable String s) {
                 requiredHoursTextView.setText(s);
             }
         });
@@ -120,14 +139,15 @@ public class ProfileFragment extends MyFragment {
         final TextView passedHoursTextView = root.findViewById(R.id.student_profile_passed_hours_tv);
         profileViewModel.getPassHours().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
-            public void onChanged(@Nullable String s ) {
+            public void onChanged(@Nullable String s) {
                 passedHoursTextView.setText(s);
             }
         });
+
         final TextView hoursStatusTextView = root.findViewById(R.id.student_profile_status_hours_tv);
         profileViewModel.getRemainHours().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
-            public void onChanged(@Nullable String remainHoursString ) {
+            public void onChanged(@Nullable String remainHoursString) {
                 String s = String.format(
                         Locale.US,
                         "%sH passed / %sH To Complete",
@@ -141,21 +161,74 @@ public class ProfileFragment extends MyFragment {
         pictureProgressBar = root.findViewById(R.id.student_profile_pictureprogoressbar);
         pictureProgressBar.setProgress(30);
 
-
-        String[] descriptionData = {"Start", "Training", "Trainer Report", "Complete", "Success"};
         stateProgressBar = root.findViewById(R.id.student_profile_stateprogoressbar);
         stateProgressBar.setStateDescriptionData(descriptionData);
         stateProgressBar.setStateDescriptionSize(12);
-        stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
+
+
+        root.findViewById(R.id.student_profile_send_msg_btn).setOnClickListener(this);
+        root.findViewById(R.id.student_profile_schedule_btn).setOnClickListener(this);
+        root.findViewById(R.id.student_profile_contact_trainer_btn).setOnClickListener(this);
+        AppCompatButton trainerRatingButton = root.findViewById(R.id.student_profile_trainer_rating_btn);
+        trainerRatingButton.setOnClickListener(this);
+        AppCompatButton finishTrainingButton = root.findViewById(R.id.student_profile_finish_training_btn);
+        finishTrainingButton.setOnClickListener(this);
+        profileViewModel.getTrainingStatus().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer status) {
+                switch (status) {
+                    case 0:
+                        stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.ONE);
+                        trainerRatingButton.setVisibility(View.GONE);
+                        finishTrainingButton.setVisibility(View.GONE);
+                        break;
+                    case 1:
+                        stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
+                        trainerRatingButton.setVisibility(View.GONE);
+                        finishTrainingButton.setVisibility(View.GONE);
+                        break;
+                    case 2:
+                        stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.THREE);
+                        trainerRatingButton.setVisibility(View.VISIBLE);
+                        finishTrainingButton.setVisibility(View.VISIBLE);
+                        break;
+                    case 3:
+                        stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.FOUR);
+                        trainerRatingButton.setVisibility(View.VISIBLE);
+                        finishTrainingButton.setVisibility(View.GONE);
+                        break;
+                    case 4:
+                        stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.FIVE);
+                        trainerRatingButton.setVisibility(View.VISIBLE);
+                        finishTrainingButton.setVisibility(View.GONE);
+                        stateProgressBar.setAllStatesCompleted(true);
+                        break;
+                    case 5:
+                        trainerRatingButton.setVisibility(View.VISIBLE);
+                        finishTrainingButton.setVisibility(View.GONE);
+                        descriptionData = new String[]{"Start", "Training", "Final Report", "Complete", "Fail"};
+                        stateProgressBar.setStateDescriptionData(descriptionData);
+                        stateProgressBar.setAllStatesCompleted(true);
+                        stateProgressBar.setForegroundColor(Color.RED);
+                        break;
+                }
+
+            }
+        });
         return root;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if(getArguments()!=null){
-            ProfileFragmentArgs profileFragmentArgs = ProfileFragmentArgs.fromBundle(getArguments());
+        if (getArguments() != null) {
+            SupervisorStudentProfileFragmentArgs profileFragmentArgs = SupervisorStudentProfileFragmentArgs.fromBundle(getArguments());
             studentId = profileFragmentArgs.getStudentId();
             trainingId = profileFragmentArgs.getTrainingId();
             getStudentInfo();
@@ -164,9 +237,8 @@ public class ProfileFragment extends MyFragment {
     }
 
     private void getStudentInfo() {
-        StudentMainActivity activity = (StudentMainActivity) getActivity();
         showProgressView();
-        String url = AppConstants.API_GET_STUDENT_INFO+"?student_id="+studentId+"&training_id="+trainingId;
+        String url = AppConstants.API_GET_STUDENT_INFO + "?student_id=" + studentId + "&training_id=" + trainingId;
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET,
                 url,
@@ -175,27 +247,30 @@ public class ProfileFragment extends MyFragment {
                     public void onResponse(String s) {
 
                         try {
-                            String response = activity.handleApiResponse(s);
+                            String response = handleApiResponse(s);
                             if (!response.isEmpty()) {
                                 JSONObject profileJsonObject = new JSONObject(response);
-                                String name=profileJsonObject.getString("name");
-                                activity.setHeaderName(name);
+                                String name = profileJsonObject.getString("name");
                                 profileViewModel.setStudentName(name);
                                 profileViewModel.setFacultyName(profileJsonObject.getString("faculty_name"));
                                 profileViewModel.setStudentMajor(profileJsonObject.getString("major_title"));
                                 profileViewModel.setStudentUniNo(profileJsonObject.getString("uni_no"));
                                 profileViewModel.setCompanyName(profileJsonObject.getString("company_name"));
                                 profileViewModel.setTrainingField(profileJsonObject.getString("training_field"));
+                                profileViewModel.setTrainerId(profileJsonObject.getInt("trainer_id"));
+                                profileViewModel.setAttendDaysCount(profileJsonObject.getInt("attend_days_count"));
+                                profileViewModel.setAbsenceDaysCount(profileJsonObject.getInt("absence_days_count"));
                                 int trainingStatus = profileJsonObject.getInt("training_status");
-                                switch (trainingStatus){
-                                    case 0:
-                                        stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.ONE);
-                                        break;
+                                profileViewModel.setTrainingStatus(trainingStatus);
+                                switch (trainingStatus) {
                                     case 1:
                                         stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
                                         break;
-                                    default:
+                                    case 2:
                                         stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.THREE);
+                                        break;
+                                    default:
+                                        stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.FOUR);
                                         break;
                                 }
                                 String passedHours = profileJsonObject.getString("passed_hours");
@@ -204,20 +279,20 @@ public class ProfileFragment extends MyFragment {
                                 profileViewModel.setRequiredHours(requiredHours);
                                 String remainHours = profileJsonObject.getString("remain_hours");
                                 profileViewModel.setRemainHours(remainHours);
-                                double passedValue = Integer.parseInt(passedHours.split(":")[0])*60 + Integer.parseInt(passedHours.split(":")[1]);
-                                double requiredValue = Integer.parseInt(requiredHours.split(":")[0])*60 + Integer.parseInt(requiredHours.split(":")[1]);
-                                int passedPercent = (int) ((passedValue / requiredValue)*100);
-                                if(passedPercent>100) passedPercent=100;
+                                double passedValue = Integer.parseInt(passedHours.split(":")[0]) * 60 + Integer.parseInt(passedHours.split(":")[1]);
+                                double requiredValue = Integer.parseInt(requiredHours.split(":")[0]) * 60 + Integer.parseInt(requiredHours.split(":")[1]);
+                                int passedPercent = (int) ((passedValue / requiredValue) * 100);
+                                if (passedPercent > 100) passedPercent = 100;
                                 pictureProgressBar.setProgress(passedPercent);
                                 profileViewModel.setStartDate(profileJsonObject.getString("start_date"));
                                 profileViewModel.setFinishDate(profileJsonObject.getString("finish_date"));
 
                             } else {
-                                activity.showSnackbar(R.string.error);
+                                showSnackbar(R.string.error);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            activity.showSnackbar(R.string.error);
+                            showSnackbar(R.string.error);
                         }
 
                         hideProgressView();
@@ -226,19 +301,41 @@ public class ProfileFragment extends MyFragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 hideProgressView();
-                activity.showSnackbar(R.string.error);
+                showSnackbar(R.string.error);
             }
         }
         ) {
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 HashMap<String, String> headers = new HashMap<>();
                 MySharedPreference mySharedPreference = new MySharedPreference(getContext());
                 headers.put("Authorization", "Bearer " + mySharedPreference.getToken());
                 return headers;
             }
         };
-        activity.addVolleyStringRequest(stringRequest);
+        addVolleyStringRequest(stringRequest);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.student_profile_send_msg_btn:
+                Bundle bundle = new Bundle();
+                bundle.putString("contact_name", profileViewModel.getStudentName().getValue());
+                Navigation.createNavigateOnClickListener(R.id.action_supervisor_nav_student_profile_to_supervisor_nav_chat, bundle).onClick(view);
+                break;
+            case R.id.student_profile_schedule_btn:
+                break;
+            case R.id.student_profile_contact_trainer_btn:
+                Bundle bundle2 = new Bundle();
+                bundle2.putInt("trainer_id", profileViewModel.getTrainerId().getValue());
+                Navigation.createNavigateOnClickListener(R.id.action_supervisor_nav_student_profile_to_supervisor_nav_contact_trainer, bundle2).onClick(view);
+                break;
+            case R.id.student_profile_trainer_rating_btn:
+                break;
+            case R.id.student_profile_finish_training_btn:
+                break;
+        }
     }
 }

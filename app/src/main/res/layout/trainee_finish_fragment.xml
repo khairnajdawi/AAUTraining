@@ -13,7 +13,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -49,16 +48,23 @@
                     android:layout_height="wrap_content"
                     android:text="@string/attend_commitment" />
 
-                <RatingBar
+                <com.willy.ratingbar.RotationRatingBar xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/trainee_finish_ratingbar_attend"
-                    style="@style/TextAppearance.AppCompat.Large"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:max="5"
-                    android:min="1"
-                    android:numStars="5"
-                    android:stepSize="1.0" />
+                    android:layout_width="match_parent"
+                    app:srb_clearRatingEnabled="true"
+                    app:srb_clickable="true"
+                    app:srb_drawableEmpty="@drawable/star_off_48"
+                    app:srb_drawableFilled="@drawable/star_on_48"
+                    app:srb_isIndicator="false"
+                    app:srb_minimumStars="1"
+                    app:srb_numStars="5"
+                    app:srb_rating="1"
+                    app:srb_scrollable="true"
+                    app:srb_starHeight="48dp"
+                    app:srb_starPadding="15dp"
+                    app:srb_starWidth="48dp"
+                    app:srb_stepSize="1.0"></com.willy.ratingbar.RotationRatingBar>
             </LinearLayout>
 
             <LinearLayout
@@ -75,16 +81,23 @@
                     android:layout_height="wrap_content"
                     android:text="@string/learning_well" />
 
-                <RatingBar
+                <com.willy.ratingbar.RotationRatingBar xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/trainee_finish_ratingbar_learning_well"
-                    style="@style/TextAppearance.AppCompat.Large"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:max="5"
-                    android:min="1"
-                    android:numStars="5"
-                    android:stepSize="1.0" />
+                    app:srb_clearRatingEnabled="true"
+                    app:srb_clickable="true"
+                    app:srb_drawableEmpty="@drawable/star_off_48"
+                    app:srb_drawableFilled="@drawable/star_on_48"
+                    app:srb_isIndicator="false"
+                    app:srb_minimumStars="1"
+                    app:srb_numStars="5"
+                    app:srb_rating="1"
+                    app:srb_scrollable="true"
+                    app:srb_starHeight="48dp"
+                    app:srb_starPadding="15dp"
+                    app:srb_starWidth="48dp"
+                    app:srb_stepSize="1.0"></com.willy.ratingbar.RotationRatingBar>
             </LinearLayout>
 
             <LinearLayout
@@ -101,16 +114,23 @@
                     android:layout_height="wrap_content"
                     android:text="@string/learning_ability" />
 
-                <RatingBar
+                <com.willy.ratingbar.RotationRatingBar xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/trainee_finish_ratingbar_learning_ability"
-                    style="@style/TextAppearance.AppCompat.Large"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:max="5"
-                    android:min="1"
-                    android:numStars="5"
-                    android:stepSize="1.0" />
+                    app:srb_clearRatingEnabled="true"
+                    app:srb_clickable="true"
+                    app:srb_drawableEmpty="@drawable/star_off_48"
+                    app:srb_drawableFilled="@drawable/star_on_48"
+                    app:srb_isIndicator="false"
+                    app:srb_minimumStars="1"
+                    app:srb_numStars="5"
+                    app:srb_rating="1"
+                    app:srb_scrollable="true"
+                    app:srb_starHeight="48dp"
+                    app:srb_starPadding="15dp"
+                    app:srb_starWidth="48dp"
+                    app:srb_stepSize="1.0"></com.willy.ratingbar.RotationRatingBar>
             </LinearLayout>
 
             <LinearLayout
@@ -127,16 +147,23 @@
                     android:layout_height="wrap_content"
                     android:text="@string/gained_skills" />
 
-                <RatingBar
+                <com.willy.ratingbar.RotationRatingBar xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/trainee_finish_ratingbar_gained_skills"
-                    style="@style/TextAppearance.AppCompat.Large"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:max="5"
-                    android:min="1"
-                    android:numStars="5"
-                    android:stepSize="1.0" />
+                    app:srb_clearRatingEnabled="true"
+                    app:srb_clickable="true"
+                    app:srb_drawableEmpty="@drawable/star_off_48"
+                    app:srb_drawableFilled="@drawable/star_on_48"
+                    app:srb_isIndicator="false"
+                    app:srb_minimumStars="1"
+                    app:srb_numStars="5"
+                    app:srb_rating="1"
+                    app:srb_scrollable="true"
+                    app:srb_starHeight="48dp"
+                    app:srb_starPadding="15dp"
+                    app:srb_starWidth="48dp"
+                    app:srb_stepSize="1.0"></com.willy.ratingbar.RotationRatingBar>
             </LinearLayout>
 
             <LinearLayout
@@ -153,16 +180,23 @@
                     android:layout_height="wrap_content"
                     android:text="@string/applying_skills" />
 
-                <RatingBar
+                <com.willy.ratingbar.RotationRatingBar xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/trainee_finish_ratingbar_applying_skills"
-                    style="@style/TextAppearance.AppCompat.Large"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:max="5"
-                    android:min="1"
-                    android:numStars="5"
-                    android:stepSize="1.0" />
+                    app:srb_clearRatingEnabled="true"
+                    app:srb_clickable="true"
+                    app:srb_drawableEmpty="@drawable/star_off_48"
+                    app:srb_drawableFilled="@drawable/star_on_48"
+                    app:srb_isIndicator="false"
+                    app:srb_minimumStars="1"
+                    app:srb_numStars="5"
+                    app:srb_rating="1"
+                    app:srb_scrollable="true"
+                    app:srb_starHeight="48dp"
+                    app:srb_starPadding="15dp"
+                    app:srb_starWidth="48dp"
+                    app:srb_stepSize="1.0"></com.willy.ratingbar.RotationRatingBar>
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -192,4 +226,8 @@
         </LinearLayout>
     </ScrollView>
 
+    <include
+        android:id="@+id/progressView"
+        layout="@layout/loading_layout"
+        android:visibility="gone" />
 </FrameLayout>

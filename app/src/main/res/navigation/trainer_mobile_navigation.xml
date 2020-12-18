@@ -83,13 +83,19 @@
         android:id="@+id/trainer_nav_trainee_schedule"
         android:name="jo.edu.aau.aautraining.trainer.ui.trainee.schedule.TrainerTraineeScheduleFragment"
         android:label="@string/trainee_schedule"
-        tools:layout="@layout/trainer_trainee_schedule_fragment" >
-        <argument android:name="trainee_id"
-            app:argType="integer"/>
-        <argument android:name="trainee_name"
-            app:argType="string"/>
-        <argument android:name="training_id"
-            app:argType="integer"/>
+        tools:layout="@layout/trainer_trainee_schedule_fragment">
+        <argument
+            android:name="trainee_id"
+            app:argType="integer" />
+        <argument
+            android:name="trainee_name"
+            app:argType="string" />
+        <argument
+            android:name="training_id"
+            app:argType="integer" />
+        <argument
+            android:name="training_status"
+            app:argType="integer" />
         <action
             android:id="@+id/action_trainer_nav_trainee_schedule_to_trainer_nav_trainee_schedule_edit"
             app:destination="@id/trainer_nav_trainee_schedule_edit" />

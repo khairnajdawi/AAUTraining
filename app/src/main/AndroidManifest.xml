@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="jo.edu.aau.aautraining" >
+    package="jo.edu.aau.aautraining">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -15,19 +15,31 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:targetApi="n" >
+        tools:targetApi="n">
+        <activity
+            android:name=".supervisor.SupervisorMainActivity"
+            android:label="@string/title_activity_supervisor_main"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".supervisor.MainActivity" />
+        <activity
+            android:name=".SupervisorMainActivity"
+            android:label="@string/title_activity_supervisor_main"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".supervisor.SupervisorsMainActivity"
+            android:label="@string/title_activity_supervisors_main"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".trainer.TrainersMainActivity"
             android:label="@string/title_activity_trainers_main"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".student.StudentMainActivity"
             android:label="@string/title_activity_student_main"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

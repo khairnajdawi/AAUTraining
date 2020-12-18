@@ -1,16 +1,15 @@
-package jo.edu.aau.aautraining.trainer.ui.trainee;
-
+package jo.edu.aau.aautraining.supervisor.ui.students;
 
 import androidx.lifecycle.MutableLiveData;
 
-public class TraineeModel {
+public class StudentModel {
     private MutableLiveData<String> studentName;
     private MutableLiveData<String> studentImageLink;
     private MutableLiveData<Integer> studentId;
     private MutableLiveData<Integer> trainingId;
     private MutableLiveData<Integer> trainingStatus;
 
-    public TraineeModel() {
+    public StudentModel() {
         studentName = new MutableLiveData<>();
         studentImageLink = new MutableLiveData<>();
         studentId = new MutableLiveData<>();
@@ -57,4 +56,5 @@ public class TraineeModel {
     public void setTrainingStatus(int trainingStatus) {
         this.trainingStatus.setValue(trainingStatus);
     }
+
 }

@@ -25,6 +25,7 @@ import jo.edu.aau.aautraining.shared.AppConstants;
 import jo.edu.aau.aautraining.shared.MyAppCompatActivity;
 import jo.edu.aau.aautraining.shared.MySharedPreference;
 import jo.edu.aau.aautraining.student.StudentMainActivity;
+import jo.edu.aau.aautraining.supervisor.SupervisorMainActivity;
 import jo.edu.aau.aautraining.trainer.TrainersMainActivity;
 
 public class LoginActivity extends MyAppCompatActivity {
@@ -107,13 +108,21 @@ public class LoginActivity extends MyAppCompatActivity {
                                             startActivity(i);
                                             finish();
                                             return;
-                                        }else
-                                        if (userRole.equalsIgnoreCase("trainer")) {
+                                        }else if (userRole.equalsIgnoreCase("trainer")) {
                                             Intent i = new Intent(LoginActivity.this, TrainersMainActivity.class);
                                             JSONObject infoJsonObject = jsonObject.getJSONObject("extra_info");
-                                            i.putExtra("trainer_id",infoJsonObject.getInt("trainer_id"));
-                                            i.putExtra("img_link",infoJsonObject.getString("img_link"));
-                                            i.putExtra("full_name",infoJsonObject.getString("full_name"));
+                                            i.putExtra("trainer_id", infoJsonObject.getInt("trainer_id"));
+                                            i.putExtra("img_link", infoJsonObject.getString("img_link"));
+                                            i.putExtra("full_name", infoJsonObject.getString("full_name"));
+                                            startActivity(i);
+                                            finish();
+                                            return;
+                                        } else if (userRole.equalsIgnoreCase("supervisor")) {
+                                            Intent i = new Intent(LoginActivity.this, SupervisorMainActivity.class);
+                                            JSONObject infoJsonObject = jsonObject.getJSONObject("extra_info");
+                                            i.putExtra("supervisor_id", infoJsonObject.getInt("supervisor_id"));
+                                            i.putExtra("img_link", infoJsonObject.getString("img_link"));
+                                            i.putExtra("full_name", infoJsonObject.getString("full_name"));
                                             startActivity(i);
                                             finish();
                                             return;
@@ -179,11 +188,19 @@ public class LoginActivity extends MyAppCompatActivity {
                                             startActivity(i);
                                             finish();
                                             return;
-                                        }else
-                                        if (userRole.equalsIgnoreCase("trainer")) {
+                                        }else if (userRole.equalsIgnoreCase("trainer")) {
                                             Intent i = new Intent(LoginActivity.this, TrainersMainActivity.class);
                                             JSONObject infoJsonObject = jsonObject.getJSONObject("extra_info");
                                             i.putExtra("trainer_id", infoJsonObject.getInt("trainer_id"));
+                                            i.putExtra("img_link", infoJsonObject.getString("img_link"));
+                                            i.putExtra("full_name", infoJsonObject.getString("full_name"));
+                                            startActivity(i);
+                                            finish();
+                                            return;
+                                        } else if (userRole.equalsIgnoreCase("supervisor")) {
+                                            Intent i = new Intent(LoginActivity.this, SupervisorMainActivity.class);
+                                            JSONObject infoJsonObject = jsonObject.getJSONObject("extra_info");
+                                            i.putExtra("supervisor_id", infoJsonObject.getInt("supervisor_id"));
                                             i.putExtra("img_link", infoJsonObject.getString("img_link"));
                                             i.putExtra("full_name", infoJsonObject.getString("full_name"));
                                             startActivity(i);

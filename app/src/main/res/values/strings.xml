@@ -81,8 +81,8 @@
         <item>@string/absence_without_reason</item>
     </string-array>
     <string-array name="finish_reason_array">
-        <item>@string/frequent_absence</item>
         <item>@string/complete_required_hours</item>
+        <item>@string/frequent_absence</item>
     </string-array>
     <string name="add_trainee_schedule">Add Trainee Schedule</string>
     <string name="enter_schedule_date">Enter  schedule date</string>
@@ -105,4 +105,12 @@
     <string name="applying_skills">Applying Learnt skills</string>
     <string name="frequent_absence">Frequent Absence</string>
     <string name="complete_required_hours">Complete Required Hours</string>
+    <string name="enter_recommendation">Please enter your recommendation</string>
+    <string name="title_activity_supervisor_main">SupervisorMainActivity</string>
+    <string name="title_activity_supervisors_main">SupervisorsMainActivity</string>
+    <string name="students_list">Students List</string>
+    <string name="student_profile">Student Profile</string>
+    <string name="attend_days_count">#days attended</string>
+    <string name="absence_days_count">#days absence</string>
+    <string name="trainer_rating">View Trainer Rating</string>
 </resources>

@@ -1,4 +1,4 @@
-package jo.edu.aau.aautraining.trainer.ui.schedule;
+package jo.edu.aau.aautraining.supervisor.ui.schedule;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -45,6 +45,7 @@ import jo.edu.aau.aautraining.R;
 import jo.edu.aau.aautraining.shared.AppConstants;
 import jo.edu.aau.aautraining.shared.MyFragment;
 import jo.edu.aau.aautraining.shared.MySharedPreference;
+import jo.edu.aau.aautraining.supervisor.SupervisorMainActivity;
 import jo.edu.aau.aautraining.trainer.TrainersMainActivity;
 import jo.edu.aau.aautraining.trainer.ui.trainee.TraineeModel;
 
@@ -58,7 +59,7 @@ public class ScheduleFragment extends MyFragment implements CalendarPickerContro
         setHasOptionsMenu(true);
         scheduleViewModel =
                 ViewModelProviders.of(this).get(ScheduleViewModel.class);
-        View root = inflater.inflate(R.layout.trainer_schedule_fragment, container, false);
+        View root = inflater.inflate(R.layout.supervisor_schedule_fragment, container, false);
         mAgendaCalendarView = root.findViewById(R.id.agenda_calendar_view);
         return root;
     }
@@ -72,11 +73,11 @@ public class ScheduleFragment extends MyFragment implements CalendarPickerContro
     private void getTrainerSchedule() {
         showProgressView();
         List<CalendarEvent> eventList = new ArrayList<>();
-        TrainersMainActivity activity = (TrainersMainActivity) getActivity();
-        int trainerId = activity.getTrainerId();
+        SupervisorMainActivity activity = (SupervisorMainActivity) getActivity();
+        int trainerId = activity.getSupervisorId();
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET,
-                AppConstants.API_GET_TRAINER_SCHEDULE + "?trainer_id=" + trainerId,
+                AppConstants.API_GET_SUPERVISOR_SCHEDULE + "?supervisor_id=" + trainerId,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
@@ -88,8 +89,8 @@ public class ScheduleFragment extends MyFragment implements CalendarPickerContro
                             JSONArray trainingScheduleJsonArray = new JSONArray(response);
                             for (int i = 0; i < trainingScheduleJsonArray.length(); i++) {
                                 JSONObject tsJsonObject = trainingScheduleJsonArray.getJSONObject(i);
-                                String trainingPlace = tsJsonObject.getString("training_place");
-                                String trainingDate = tsJsonObject.getString("training_date");
+                                String trainingPlace = "AAU Office" + " @" + tsJsonObject.getString("sch_time");
+                                String trainingDate = tsJsonObject.getString("sch_date");
                                 String studentName = tsJsonObject.getString("student_name");
                                 String scheduleId = tsJsonObject.getString("schedule_id");
                                 Date date = sdf.parse(trainingDate);
@@ -139,17 +140,16 @@ public class ScheduleFragment extends MyFragment implements CalendarPickerContro
 
     @Override
     public void onDaySelected(DayItem dayItem) {
-//        Toast.makeText(getContext(), "Day selected", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onEventSelected(CalendarEvent event) {
         long scheduleId = event.getId();
-        String traineeName = event.getTitle();
-        Bundle bundle = new Bundle();
-        bundle.putString("trainee_name", traineeName);
-        bundle.putInt("schedule_id", (int) scheduleId);
-        Navigation.createNavigateOnClickListener(R.id.action_trainer_nav_schedule_to_trainer_nav_trainee_schedule_edit, bundle).onClick(mAgendaCalendarView);
+//        String traineeName = event.getTitle();
+//        Bundle bundle = new Bundle();
+//        bundle.putString("trainee_name", traineeName);
+//        bundle.putInt("schedule_id", (int) scheduleId);
+//        Navigation.createNavigateOnClickListener(R.id.action_trainer_nav_schedule_to_trainer_nav_trainee_schedule_edit, bundle).onClick(mAgendaCalendarView);
     }
 
     @Override
@@ -167,37 +167,37 @@ public class ScheduleFragment extends MyFragment implements CalendarPickerContro
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == 1) {
-            selectTraineeForScheduleAdd();
+//            selectTraineeForScheduleAdd();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void selectTraineeForScheduleAdd() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle(R.string.choose_trainee);
-        TrainersMainActivity activity = (TrainersMainActivity) getActivity();
-        List<TraineeModel> traineesList = activity.getTraineesList();
-        List<TraineeModel> filteredTraineesList = new ArrayList<>();
-        List<String> filteredTraineesNames = new ArrayList<>();
-        for (int i = 0; i < traineesList.size(); i++) {
-            TraineeModel trainee = traineesList.get(i);
-            if (trainee.getTrainingStatus().getValue() == 1) {
-                filteredTraineesList.add(trainee);
-                filteredTraineesNames.add(trainee.getStudentName().getValue());
-            }
-        }
-        builder.setItems(filteredTraineesNames.toArray(new String[0]), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) {
-                TraineeModel trainee = filteredTraineesList.get(item);
-                Bundle bundle = new Bundle();
-                bundle.putString("trainee_name", trainee.getStudentName().getValue());
-                bundle.putInt("training_id", trainee.getTrainingId().getValue());
-                Navigation.createNavigateOnClickListener(R.id.action_trainer_nav_schedule_to_trainer_nav_trainee_schedule_add, bundle).onClick(mAgendaCalendarView);
-            }
-        });
-
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
+//    private void selectTraineeForScheduleAdd() {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+//        builder.setTitle(R.string.choose_trainee);
+//        TrainersMainActivity activity = (TrainersMainActivity) getActivity();
+//        List<TraineeModel> traineesList = activity.getTraineesList();
+//        List<TraineeModel> filteredTraineesList = new ArrayList<>();
+//        List<String> filteredTraineesNames = new ArrayList<>();
+//        for (int i = 0; i < traineesList.size(); i++) {
+//            TraineeModel trainee = traineesList.get(i);
+//            if (trainee.getTrainingStatus().getValue() == 1) {
+//                filteredTraineesList.add(trainee);
+//                filteredTraineesNames.add(trainee.getStudentName().getValue());
+//            }
+//        }
+//        builder.setItems(filteredTraineesNames.toArray(new String[0]), new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int item) {
+//                TraineeModel trainee = filteredTraineesList.get(item);
+//                Bundle bundle = new Bundle();
+//                bundle.putString("trainee_name", trainee.getStudentName().getValue());
+//                bundle.putInt("training_id", trainee.getTrainingId().getValue());
+//                Navigation.createNavigateOnClickListener(R.id.action_trainer_nav_schedule_to_trainer_nav_trainee_schedule_add, bundle).onClick(mAgendaCalendarView);
+//            }
+//        });
+//
+//        AlertDialog alert = builder.create();
+//        alert.show();
+//    }
 
 }

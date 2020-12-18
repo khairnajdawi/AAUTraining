@@ -124,7 +124,8 @@ public class TraineeProfileFragment extends MyFragment implements View.OnClickLi
                                 traineeProfileViewModel.setTrainingField(profileJsonObject.getString("training_field"));
 
                                 int trainingStatus = profileJsonObject.getInt("training_status");
-                                switch (trainingStatus){
+                                traineeProfileViewModel.setTrainingStatus(trainingStatus);
+                                switch (trainingStatus) {
                                     case 0:
                                         stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.ONE);
                                         break;
@@ -133,6 +134,8 @@ public class TraineeProfileFragment extends MyFragment implements View.OnClickLi
                                         break;
                                     default:
                                         stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.THREE);
+                                        //hide finish training button
+                                        getView().findViewById(R.id.trainee_profile_finish_btn).setVisibility(View.GONE);
                                         break;
                                 }
                                 String requiredHours = profileJsonObject.getString("required_hours");
@@ -198,6 +201,7 @@ public class TraineeProfileFragment extends MyFragment implements View.OnClickLi
                 Bundle bundle2 = new Bundle();
                 bundle2.putInt("training_id", trainingId);
                 bundle2.putInt("trainee_id", traineeId);
+                bundle2.putInt("training_status", traineeProfileViewModel.getTrainingStatus().getValue());
                 bundle2.putString("trainee_name", traineeProfileViewModel.getTraineeName().getValue());
                 Navigation.createNavigateOnClickListener(R.id.action_trainer_nav_trainee_profile_to_trainer_nav_trainee_schedule, bundle2).onClick(view);
                 break;

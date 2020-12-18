@@ -1,5 +1,4 @@
-package jo.edu.aau.aautraining.trainer;
-
+package jo.edu.aau.aautraining.supervisor;
 
 import android.os.Bundle;
 import android.widget.TextView;
@@ -12,7 +11,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -33,61 +31,48 @@ import jo.edu.aau.aautraining.R;
 import jo.edu.aau.aautraining.shared.AppConstants;
 import jo.edu.aau.aautraining.shared.MyAppCompatActivity;
 import jo.edu.aau.aautraining.shared.MySharedPreference;
-import jo.edu.aau.aautraining.trainer.ui.trainee.TraineeModel;
+import jo.edu.aau.aautraining.supervisor.ui.students.StudentModel;
 
-public class TrainersMainActivity extends MyAppCompatActivity {
+public class SupervisorMainActivity extends MyAppCompatActivity {
 
-    private AppBarConfiguration mAppBarConfiguration;
-    private TextView navHeaderNameTextView;
-    private NetworkImageView headerImageView;
     private NavController navController;
     private NavigationView navigationView;
-    private int trainerId;
-    private List<TraineeModel> traineesList;
+    private AppBarConfiguration mAppBarConfiguration;
+    private int supervisorId;
+    private List<StudentModel> studentsList;
 
-    public int getTrainerId() {
-        return trainerId;
-    }
-
-    public void setTrainerId(int trainerId) {
-        this.trainerId = trainerId;
-    }
 
     @Override
-    protected void onStart() {
-        trainerId = getIntent().getExtras().getInt("trainer_id");
-        setTrainerId(trainerId);
-        super.onStart();
-    }
+    protected void onCreate(Bundle savedInstanceState) {
+        Bundle extras = getIntent().getExtras();
+        supervisorId = extras.getInt("supervisor_id");
+        String imageLink = extras.getString("img_link");
+        String fullName = extras.getString("full_name");
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_supervisor_main);
 
-        setContentView(R.layout.activity_trainer_main);
-        Toolbar toolbar = findViewById(R.id.trainer_toolbar);
+        Toolbar toolbar = findViewById(R.id.supervisor_toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = findViewById(R.id.trainer_drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.supervisor_drawer_layout);
         navigationView = findViewById(R.id.nav_view);
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.trainer_nav_profile, R.id.trainer_nav_schedule, R.id.trainer_nav_trainee_list, R.id.trainer_nav_logout)
+                R.id.supervisor_nav_profile, R.id.supervisor_nav_schedule, R.id.supervisor_nav_student_list, R.id.supervisor_nav_logout)
                 .setDrawerLayout(drawer)
                 .build();
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        //navController.setGraph(navController.getGraph(), getIntent().getExtras());
 
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
 
-        navHeaderNameTextView = navigationView.getHeaderView(0).findViewById(R.id.trainer_navheader_name);
-        String fullName = getIntent().getExtras().getString("full_name");
+        TextView navHeaderNameTextView = navigationView.getHeaderView(0).findViewById(R.id.supervisor_navheader_name);
         navHeaderNameTextView.setText(fullName);
 
-        headerImageView = navigationView.getHeaderView(0).findViewById(R.id.trainer_navheader_imageview);
-        String imageLink = getIntent().getExtras().getString("img_link");
+        NetworkImageView headerImageView = navigationView.getHeaderView(0).findViewById(R.id.supervisor_navheader_imageview);
         if (!(imageLink == null) && !imageLink.isEmpty()) {
             headerImageView.setImageUrl(AppConstants.API_BASE_URL + imageLink, getImageLoader());
             headerImageView.setErrorImageResId(R.drawable.training);
@@ -97,7 +82,7 @@ public class TrainersMainActivity extends MyAppCompatActivity {
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        getTraineesListVolley();
+        getStudentsListFromAPI();
     }
 
     @Override
@@ -107,27 +92,31 @@ public class TrainersMainActivity extends MyAppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    private void getTraineesListVolley() {
+    public int getSupervisorId() {
+        return this.supervisorId;
+    }
+
+    private void getStudentsListFromAPI() {
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET,
-                AppConstants.API_GET_TRAINER_TRAINEE_LIST + "?trainer_id=" + trainerId,
+                AppConstants.API_GET_SUPERVISOR_STUDENT_LIST + "?supervisor_id=" + supervisorId,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
-                        System.out.println("TraineeList API : " + trainerId + " : " + s);
+                        System.out.println("TraineeList API : " + supervisorId + " : " + s);
                         try {
                             String response = handleApiResponse(s);
                             JSONArray traineeJsonArray = new JSONArray(response);
-                            traineesList = new ArrayList<>();
+                            studentsList = new ArrayList<>();
                             for (int i = 0; i < traineeJsonArray.length(); i++) {
                                 JSONObject traineeJsonObject = traineeJsonArray.getJSONObject(i);
-                                TraineeModel traineeModel = new TraineeModel();
-                                traineeModel.setStudentId(traineeJsonObject.getInt("student_id"));
-                                traineeModel.setStudentName(traineeJsonObject.getString("student_name"));
-                                traineeModel.setStudentImageLink(traineeJsonObject.getString("img_link"));
-                                traineeModel.setTrainingId(traineeJsonObject.getInt("training_id"));
-                                traineeModel.setTrainingStatus(traineeJsonObject.getInt("training_status"));
-                                traineesList.add(traineeModel);
+                                StudentModel studentModel = new StudentModel();
+                                studentModel.setStudentId(traineeJsonObject.getInt("student_id"));
+                                studentModel.setStudentName(traineeJsonObject.getString("student_name"));
+                                studentModel.setStudentImageLink(traineeJsonObject.getString("img_link"));
+                                studentModel.setTrainingId(traineeJsonObject.getInt("training_id"));
+                                studentModel.setTrainingStatus(traineeJsonObject.getInt("training_status"));
+                                studentsList.add(studentModel);
                             }
 
                         } catch (JSONException e) {
@@ -145,7 +134,7 @@ public class TrainersMainActivity extends MyAppCompatActivity {
             @Override
             public Map<String, String> getHeaders() {
                 HashMap<String, String> headers = new HashMap<>();
-                MySharedPreference mySharedPreference = new MySharedPreference(TrainersMainActivity.this);
+                MySharedPreference mySharedPreference = new MySharedPreference(SupervisorMainActivity.this);
                 headers.put("Authorization", "Bearer " + mySharedPreference.getToken());
                 return headers;
             }
@@ -154,11 +143,11 @@ public class TrainersMainActivity extends MyAppCompatActivity {
 
     }
 
-    public List<TraineeModel> getTraineesList() {
-        return traineesList;
+    public List<StudentModel> getStudentsList() {
+        return studentsList;
     }
 
-    public void setTraineesList(List<TraineeModel> traineesList) {
-        this.traineesList = traineesList;
+    public void setStudentsList(List<StudentModel> studentsList) {
+        this.studentsList = studentsList;
     }
 }

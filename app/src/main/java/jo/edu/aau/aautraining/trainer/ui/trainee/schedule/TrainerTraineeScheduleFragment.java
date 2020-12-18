@@ -54,9 +54,21 @@ public class TrainerTraineeScheduleFragment extends MyFragment implements Calend
     private AgendaCalendarView mAgendaCalendarView;
     private String traineeName;
     private int trainingId;
+    private int trainingStatus;
 
     public static TrainerTraineeScheduleFragment newInstance() {
         return new TrainerTraineeScheduleFragment();
+    }
+
+    @Override
+    public void onStart() {
+        if (getArguments() != null) {
+            trainingId = TrainerTraineeScheduleFragmentArgs.fromBundle(getArguments()).getTrainingId();
+            traineeName = TrainerTraineeScheduleFragmentArgs.fromBundle(getArguments()).getTraineeName();
+            trainingStatus = TrainerTraineeScheduleFragmentArgs.fromBundle(getArguments()).getTrainingStatus();
+        }
+        super.onStart();
+        getTraineeSchedule();
     }
 
     @Override
@@ -73,15 +85,11 @@ public class TrainerTraineeScheduleFragment extends MyFragment implements Calend
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if(getArguments()!=null){
-            trainingId = TrainerTraineeScheduleFragmentArgs.fromBundle(getArguments()).getTrainingId();
-            traineeName = TrainerTraineeScheduleFragmentArgs.fromBundle(getArguments()).getTraineeName();
-            getTraineeSchedule(trainingId);
-        }
     }
-    private void getTraineeSchedule(int trainingId) {
+
+    private void getTraineeSchedule() {
         showProgressView();
-        List<CalendarEvent> eventList=new ArrayList<>();
+        List<CalendarEvent> eventList = new ArrayList<>();
         MyAppCompatActivity activity = (MyAppCompatActivity) getActivity();
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET,
@@ -166,7 +174,6 @@ public class TrainerTraineeScheduleFragment extends MyFragment implements Calend
 
     @Override
     public void onEventSelected(CalendarEvent event) {
-        BaseCalendarEvent scheduleCalendarEvent = (BaseCalendarEvent) event;
         if(event.getId()>0){
             Bundle bundle = new Bundle();
             bundle.putString("trainee_name",traineeName);
@@ -182,8 +189,9 @@ public class TrainerTraineeScheduleFragment extends MyFragment implements Calend
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        menu.add(1, 1, 1, getResources().getString(R.string.add)).setIcon(R.drawable.calendar_add_48)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        if (trainingStatus == 1)
+            menu.add(1, 1, 1, getResources().getString(R.string.add)).setIcon(R.drawable.calendar_add_48)
+                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         super.onCreateOptionsMenu(menu, inflater);
     }
     @Override

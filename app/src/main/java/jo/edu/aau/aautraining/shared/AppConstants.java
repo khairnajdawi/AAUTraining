@@ -17,4 +17,7 @@ public class AppConstants {
     public static final String API_DELETE_TRAINEE_SCHEDULE = API_BASE_URL + "delete_trainee_schedule_for_trainer.php";
     public static final String API_EDIT_TRAINEE_SCHEDULE = API_BASE_URL + "edit_trainee_schedule_for_trainer.php";
     public static final String API_GET_TRAINEE_SCHEDULE_INFO = API_BASE_URL + "get_trainee_schedule_info.php";
+    public static final String API_TRAINER_FINISH_TRAINING = API_BASE_URL + "trainer_finish_training.php";
+    public static final String API_GET_SUPERVISOR_SCHEDULE = API_BASE_URL + "supervisor_get_schedule.php";
+    public static final String API_GET_SUPERVISOR_STUDENT_LIST = API_BASE_URL + "supervisor_get_students_list.php";
 }

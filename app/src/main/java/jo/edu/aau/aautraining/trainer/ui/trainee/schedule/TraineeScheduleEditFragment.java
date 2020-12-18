@@ -1,15 +1,7 @@
 package jo.edu.aau.aautraining.trainer.ui.trainee.schedule;
 
-import androidx.lifecycle.ViewModelProviders;
-
 import android.content.DialogInterface;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,9 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -45,14 +42,11 @@ import jo.edu.aau.aautraining.shared.MyTimePicker;
 public class TraineeScheduleEditFragment extends MyFragment {
 
     private TraineeScheduleEditViewModel mViewModel;
-    private EditText traineeNameEditText
-            ,trainingDateEditText
-            ,trainingPlaceEditText
-            ,startTimeEditText
-            ,endTimeEditText
-            ,gainedSkillEditText
-            ,notesEditText;
+    private EditText traineeNameEditText, trainingDateEditText, trainingPlaceEditText, startTimeEditText, endTimeEditText, gainedSkillEditText, notesEditText;
     private Spinner attendedSpinner;
+    private Button saveButton;
+    private boolean isEditable = false;
+
     public static TraineeScheduleEditFragment newInstance() {
         return new TraineeScheduleEditFragment();
     }
@@ -63,50 +57,58 @@ public class TraineeScheduleEditFragment extends MyFragment {
         setHasOptionsMenu(true);
         mViewModel = ViewModelProviders.of(this).get(TraineeScheduleEditViewModel.class);
 
-        View root =  inflater.inflate(R.layout.trainee_schedule_edit_fragment, container, false);
+        View root = inflater.inflate(R.layout.trainee_schedule_edit_fragment, container, false);
 
-        traineeNameEditText =root.findViewById(R.id.trainee_schedule_edit_trainee_name);
-        mViewModel.getTraineeName().observe(getViewLifecycleOwner(),traineeNameEditText::setText);
+        traineeNameEditText = root.findViewById(R.id.trainee_schedule_edit_trainee_name);
+        mViewModel.getTraineeName().observe(getViewLifecycleOwner(), traineeNameEditText::setText);
 
-       trainingDateEditText = root.findViewById(R.id.trainee_schedule_edit_date);
-        mViewModel.getTrainingDate().observe(getViewLifecycleOwner(),trainingDateEditText::setText);
-        trainingDateEditText.setOnClickListener(view -> MyDatePicker.getInstance(getContext()).selectDateFor(trainingDateEditText));
+        trainingDateEditText = root.findViewById(R.id.trainee_schedule_edit_date);
+        mViewModel.getTrainingDate().observe(getViewLifecycleOwner(), trainingDateEditText::setText);
+        trainingDateEditText.setOnClickListener(view -> {
+            if (isEditable)
+                MyDatePicker.getInstance(getContext()).selectDateFor(trainingDateEditText);
+        });
 
         trainingPlaceEditText = root.findViewById(R.id.trainee_schedule_edit_place);
-        mViewModel.getTrainingPlace().observe(getViewLifecycleOwner(),trainingPlaceEditText::setText);
+        mViewModel.getTrainingPlace().observe(getViewLifecycleOwner(), trainingPlaceEditText::setText);
 
 
         startTimeEditText = root.findViewById(R.id.trainee_schedule_edit_start_time);
-        mViewModel.getStartTime().observe(getViewLifecycleOwner(),startTimeEditText::setText);
-        startTimeEditText.setOnClickListener(view -> MyTimePicker.getInstance(getContext()).pickTimeFor(startTimeEditText));
+        mViewModel.getStartTime().observe(getViewLifecycleOwner(), startTimeEditText::setText);
+        startTimeEditText.setOnClickListener(view -> {
+                    if (isEditable)
+                        MyTimePicker.getInstance(getContext()).pickTimeFor(startTimeEditText);
+                }
+        );
 
 
         endTimeEditText = root.findViewById(R.id.trainee_schedule_edit_end_time);
-        mViewModel.getEndTime().observe(getViewLifecycleOwner(),endTimeEditText::setText);
+        mViewModel.getEndTime().observe(getViewLifecycleOwner(), endTimeEditText::setText);
         endTimeEditText.setOnClickListener(view -> {
-            MyTimePicker.getInstance(getContext()).pickTimeFor(endTimeEditText);
+            if (isEditable)
+                MyTimePicker.getInstance(getContext()).pickTimeFor(endTimeEditText);
         });
 
         gainedSkillEditText = root.findViewById(R.id.trainee_schedule_edit_gained_skills);
-        mViewModel.getGaindSkills().observe(getViewLifecycleOwner(),gainedSkillEditText::setText);
+        mViewModel.getGaindSkills().observe(getViewLifecycleOwner(), gainedSkillEditText::setText);
 
         notesEditText = root.findViewById(R.id.trainee_schedule_edit_notes);
-        mViewModel.getNotes().observe(getViewLifecycleOwner(),notesEditText::setText);
+        mViewModel.getNotes().observe(getViewLifecycleOwner(), notesEditText::setText);
 
         attendedSpinner = root.findViewById(R.id.trainee_schedule_edit_attended_spinner);
         mViewModel.getAttended().observe(getViewLifecycleOwner(), attendedSpinner::setSelection);
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                getContext(),android.R.layout.simple_spinner_dropdown_item,
+                getContext(), android.R.layout.simple_spinner_dropdown_item,
                 getResources().getStringArray(R.array.attending));
         attendedSpinner.setAdapter(arrayAdapter);
 
         attendedSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                if(position==1){
+                if (position == 1) {
                     startTimeEditText.setEnabled(true);
                     endTimeEditText.setEnabled(true);
-                }else{
+                } else {
                     startTimeEditText.setText("");
                     startTimeEditText.setEnabled(false);
                     endTimeEditText.setText("");
@@ -119,8 +121,8 @@ public class TraineeScheduleEditFragment extends MyFragment {
 
             }
         });
-
-        root.findViewById(R.id.trainee_schedule_edit_save_btn).setOnClickListener(new View.OnClickListener() {
+        saveButton = root.findViewById(R.id.trainee_schedule_edit_save_btn);
+        saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 tryUpdateSchedule();
@@ -132,7 +134,7 @@ public class TraineeScheduleEditFragment extends MyFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if(getArguments()!=null){
+        if (getArguments() != null) {
             TraineeScheduleEditFragmentArgs fragmentArgs = TraineeScheduleEditFragmentArgs.fromBundle(getArguments());
             int scheduleId = fragmentArgs.getScheduleId();
             mViewModel.setScheduleId(scheduleId);
@@ -146,7 +148,7 @@ public class TraineeScheduleEditFragment extends MyFragment {
         showProgressView();
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET,
-                AppConstants.API_GET_TRAINEE_SCHEDULE_INFO+"?schedule_id="+mViewModel.getScheduleId().getValue(),
+                AppConstants.API_GET_TRAINEE_SCHEDULE_INFO + "?schedule_id=" + mViewModel.getScheduleId().getValue(),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
@@ -167,6 +169,10 @@ public class TraineeScheduleEditFragment extends MyFragment {
                             mViewModel.setNotes(notes);
                             int attended = jsonObject.getInt("attended");
                             mViewModel.setAttended(attended);
+                            int trainingStatus = jsonObject.getInt("training_status");
+                            isEditable = (trainingStatus == 1);
+                            invalidateEditMode();
+                            getActivity().invalidateOptionsMenu();
                         } catch (JSONException e) {
                             e.printStackTrace();
                             showSnackbar(R.string.error);
@@ -180,7 +186,7 @@ public class TraineeScheduleEditFragment extends MyFragment {
                 showSnackbar(R.string.error);
             }
         }
-        ){
+        ) {
             @Override
             public Map<String, String> getHeaders() {
                 HashMap<String, String> headers = new HashMap<>();
@@ -192,15 +198,29 @@ public class TraineeScheduleEditFragment extends MyFragment {
         addVolleyStringRequest(stringRequest);
     }
 
+    private void invalidateEditMode() {
+        traineeNameEditText.setFocusable(isEditable);
+        trainingDateEditText.setFocusable(isEditable);
+        trainingPlaceEditText.setFocusable(isEditable);
+        startTimeEditText.setFocusable(isEditable);
+        endTimeEditText.setFocusable(isEditable);
+        gainedSkillEditText.setFocusable(isEditable);
+        notesEditText.setFocusable(isEditable);
+        attendedSpinner.setEnabled(isEditable);
+        saveButton.setVisibility(isEditable ? View.VISIBLE : View.GONE);
+    }
+
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        menu.add(1, 1, 1, getResources().getString(R.string.add)).setIcon(R.drawable.calendar_delete_48)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        if (isEditable)
+            menu.add(1, 1, 1, getResources().getString(R.string.add)).setIcon(R.drawable.calendar_delete_48)
+                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         super.onCreateOptionsMenu(menu, inflater);
     }
+
     @Override
     public boolean onOptionsItemSelected(@NotNull MenuItem item) {
-        if(item.getItemId()==1) {
+        if (item.getItemId() == 1) {
             new MyConfirmation(getContext(), getResources().getString(R.string.confirm_delete_schedule))
                     .askConfirmation(new DialogInterface.OnClickListener() {
                         @Override
@@ -223,9 +243,9 @@ public class TraineeScheduleEditFragment extends MyFragment {
                         try {
                             String response = handleApiResponse(s);
                             JSONObject jsonObject = new JSONObject(response);
-                            if(jsonObject.getBoolean("deleted")){
+                            if (jsonObject.getBoolean("deleted")) {
                                 Navigation.findNavController(getView()).navigateUp();
-                            }else{
+                            } else {
                                 showSnackbar(R.string.error);
                             }
                         } catch (JSONException e) {
@@ -252,7 +272,7 @@ public class TraineeScheduleEditFragment extends MyFragment {
 
             @Override
             protected Map<String, String> getParams() {
-                HashMap<String,String> params = new HashMap<>();
+                HashMap<String, String> params = new HashMap<>();
                 params.put("schedule_id", String.valueOf(mViewModel.getScheduleId().getValue()));
                 return params;
             }
@@ -261,30 +281,30 @@ public class TraineeScheduleEditFragment extends MyFragment {
     }
 
     private void tryUpdateSchedule() {
-        if(trainingPlaceEditText.getText().toString().trim().isEmpty()){
+        if (trainingPlaceEditText.getText().toString().trim().isEmpty()) {
             trainingPlaceEditText.setError(getResources().getString(R.string.enter_training_place));
             trainingPlaceEditText.requestFocus();
             return;
-        }else{
+        } else {
             trainingPlaceEditText.setError(null);
         }
         //check if attended
-        if(attendedSpinner.getSelectedItemPosition()==1){
+        if (attendedSpinner.getSelectedItemPosition() == 1) {
             // attended, check start and end time
             //check if start time text is empty
-            if(startTimeEditText.getText().toString().trim().isEmpty()){
+            if (startTimeEditText.getText().toString().trim().isEmpty()) {
                 startTimeEditText.setError(getResources().getString(R.string.enter_start_time));
                 startTimeEditText.requestFocus();
                 return;
-            }else{
+            } else {
                 startTimeEditText.setError(null);
             }
             //check end time text is empty
-            if(endTimeEditText.getText().toString().trim().isEmpty()){
+            if (endTimeEditText.getText().toString().trim().isEmpty()) {
                 endTimeEditText.setError(getResources().getString(R.string.enter_end_time));
                 endTimeEditText.requestFocus();
                 return;
-            }else{
+            } else {
                 endTimeEditText.setError(null);
             }
         }
@@ -299,9 +319,9 @@ public class TraineeScheduleEditFragment extends MyFragment {
                         try {
                             String response = handleApiResponse(s);
                             JSONObject jsonObject = new JSONObject(response);
-                            if(jsonObject.getBoolean("updated")){
+                            if (jsonObject.getBoolean("updated")) {
                                 Navigation.findNavController(getView()).navigateUp();
-                            }else{
+                            } else {
                                 showSnackbar(R.string.error);
                             }
                         } catch (JSONException e) {
@@ -328,16 +348,16 @@ public class TraineeScheduleEditFragment extends MyFragment {
 
             @Override
             protected Map<String, String> getParams() {
-                HashMap<String,String> params = new HashMap<>();
+                HashMap<String, String> params = new HashMap<>();
                 params.put("schedule_id", String.valueOf(mViewModel.getScheduleId().getValue()));
                 params.put("training_id", String.valueOf(mViewModel.getScheduleId().getValue()));
-                params.put("training_date",trainingDateEditText.getText().toString());
-                params.put("training_place",trainingPlaceEditText.getText().toString());
-                params.put("attended",String.valueOf(attendedSpinner.getSelectedItemPosition()));
-                params.put("start_time",startTimeEditText.getText().toString());
-                params.put("end_time",endTimeEditText.getText().toString());
-                params.put("gained_skills",gainedSkillEditText.getText().toString());
-                params.put("notes",notesEditText.getText().toString());
+                params.put("training_date", trainingDateEditText.getText().toString());
+                params.put("training_place", trainingPlaceEditText.getText().toString());
+                params.put("attended", String.valueOf(attendedSpinner.getSelectedItemPosition()));
+                params.put("start_time", startTimeEditText.getText().toString());
+                params.put("end_time", endTimeEditText.getText().toString());
+                params.put("gained_skills", gainedSkillEditText.getText().toString());
+                params.put("notes", notesEditText.getText().toString());
                 return params;
             }
         };

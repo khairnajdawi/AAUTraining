@@ -17,8 +17,8 @@ public class TraineeProfileViewModel extends AndroidViewModel {
             startDate,
             finishDate,
             trainingHoursText;
-    private MutableLiveData<Integer> trainingId,supervisorId;
-    private MutableLiveData<String> passedHours,requiredHours,remainHours;
+    private MutableLiveData<Integer> trainingId, supervisorId, trainingStatus;
+    private MutableLiveData<String> passedHours, requiredHours, remainHours;
 
     public TraineeProfileViewModel(Application application) {
         super(application);
@@ -37,6 +37,7 @@ public class TraineeProfileViewModel extends AndroidViewModel {
 
         trainingId = new MutableLiveData<>();
         supervisorId = new MutableLiveData<>();
+        trainingStatus = new MutableLiveData<>();
     }
 
     public MutableLiveData<String> getTrainingHoursText() {
@@ -147,7 +148,16 @@ public class TraineeProfileViewModel extends AndroidViewModel {
     public LiveData<String> getTraineeName() {
         return traineeName;
     }
-    public void setTraineeName(String traineeName){
+
+    public void setTraineeName(String traineeName) {
         this.traineeName.setValue(traineeName);
+    }
+
+    public MutableLiveData<Integer> getTrainingStatus() {
+        return trainingStatus;
+    }
+
+    public void setTrainingStatus(int trainingStatus) {
+        this.trainingStatus.setValue(trainingStatus);
     }
 }
