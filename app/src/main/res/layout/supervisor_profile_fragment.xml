@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent"
-    tools:context=".supervisor.ui.trainer.profile.TrainerProfileFragment">
+    tools:context=".supervisor.ui.profile.ProfileFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -14,18 +13,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
             android:orientation="vertical">
 
             <com.android.volley.toolbox.NetworkImageView
-                android:id="@+id/student_trainer_imageView"
+                android:id="@+id/supervisor_profile_imageView"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:background="@color/colorPrimary"
                 android:paddingTop="10dp"
                 android:paddingBottom="50dp"
                 android:scaleType="centerInside"
-
-                android:src="@drawable/professor_icon" />
+                app:srcCompat="@drawable/dr" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -43,7 +42,7 @@
                     android:padding="20dp">
 
                     <TextView
-                        android:id="@+id/student_trainer_name"
+                        android:id="@+id/supervisor_profile_name"
                         style="@style/TextAppearance.AppCompat.Title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -51,15 +50,14 @@
                         android:layout_marginBottom="20dp"
                         android:textSize="30sp" />
 
-
                     <TextView
                         style="@style/TextAppearance.AppCompat.Caption"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/company" />
+                        android:text="@string/scientific_rank" />
 
                     <TextView
-                        android:id="@+id/student_trainer_company"
+                        android:id="@+id/supervisor_profile_rank"
                         style="@style/TextAppearance.AppCompat.Large"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -75,10 +73,29 @@
                         style="@style/TextAppearance.AppCompat.Caption"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/specialty" />
+                        android:text="@string/faculty" />
 
                     <TextView
-                        android:id="@+id/student_trainer_specialty"
+                        android:id="@+id/supervisor_profile_faculty"
+                        style="@style/TextAppearance.AppCompat.Large"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="20dp"
+                        android:background="@color/colorAccent" />
+
+                    <TextView
+                        style="@style/TextAppearance.AppCompat.Caption"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/department" />
+
+                    <TextView
+                        android:id="@+id/supervisor_profile_department"
                         style="@style/TextAppearance.AppCompat.Large"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -97,7 +114,7 @@
                         android:text="@string/job_title" />
 
                     <TextView
-                        android:id="@+id/student_trainer_job_title"
+                        android:id="@+id/supervisor_profile_job_title"
                         style="@style/TextAppearance.AppCompat.Large"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -116,7 +133,7 @@
                         android:text="@string/mobile" />
 
                     <TextView
-                        android:id="@+id/student_trainer_mobile"
+                        android:id="@+id/supervisor_profile_mobile"
                         style="@style/TextAppearance.AppCompat.Large"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -135,7 +152,7 @@
                         android:text="@string/email" />
 
                     <TextView
-                        android:id="@+id/student_trainer_email"
+                        android:id="@+id/supervisor_profile_email"
                         style="@style/TextAppearance.AppCompat.Large"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -147,24 +164,15 @@
                         android:layout_marginBottom="20dp"
                         android:background="@color/colorAccent" />
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/student_trainer_contactbtn"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="20dp"
-                        android:text="@string/send_inapp_msg"
-                        android:textAlignment="center"
-                        app:backgroundTint="@color/btn_colored_background_tint" />
-
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
     </ScrollView>
 
-
     <include
         android:id="@+id/progressView"
         layout="@layout/loading_layout"
         android:visibility="gone" />
-</RelativeLayout>
+
+</FrameLayout>

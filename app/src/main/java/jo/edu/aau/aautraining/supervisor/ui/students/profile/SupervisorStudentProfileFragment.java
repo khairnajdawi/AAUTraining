@@ -326,6 +326,11 @@ public class SupervisorStudentProfileFragment extends MyFragment implements View
                 Navigation.createNavigateOnClickListener(R.id.action_supervisor_nav_student_profile_to_supervisor_nav_chat, bundle).onClick(view);
                 break;
             case R.id.student_profile_schedule_btn:
+                Bundle bundle5 = new Bundle();
+                bundle5.putInt("training_id", trainingId);
+                bundle5.putString("student_name", profileViewModel.getStudentName().getValue());
+                Navigation.createNavigateOnClickListener(R.id.action_supervisor_nav_student_profile_to_supervisor_nav_student_schedule, bundle5).onClick(view);
+
                 break;
             case R.id.student_profile_contact_trainer_btn:
                 Bundle bundle2 = new Bundle();
@@ -333,6 +338,9 @@ public class SupervisorStudentProfileFragment extends MyFragment implements View
                 Navigation.createNavigateOnClickListener(R.id.action_supervisor_nav_student_profile_to_supervisor_nav_contact_trainer, bundle2).onClick(view);
                 break;
             case R.id.student_profile_trainer_rating_btn:
+                Bundle bundle3 = new Bundle();
+                bundle3.putInt("training_id", trainingId);
+                Navigation.createNavigateOnClickListener(R.id.action_supervisor_nav_student_profile_to_supervisor_nav_trainer_rating, bundle3).onClick(view);
                 break;
             case R.id.student_profile_finish_training_btn:
                 break;

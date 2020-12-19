@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".supervisor.ui.trainer.rating.TrainerRatingFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="@drawable/edittext_rountd"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Caption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/average_rating" />
+
+                <com.willy.ratingbar.RotationRatingBar
+                    android:id="@+id/trainer_rating_ratingbar_avg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    app:srb_clearRatingEnabled="true"
+                    app:srb_clickable="false"
+                    app:srb_drawableEmpty="@drawable/star_off_48"
+                    app:srb_drawableFilled="@drawable/star_on_48"
+                    app:srb_isIndicator="true"
+                    app:srb_minimumStars="1"
+                    app:srb_numStars="5"
+                    app:srb_rating="1"
+                    app:srb_scrollable="true"
+                    app:srb_starHeight="48dp"
+                    app:srb_starPadding="15dp"
+                    app:srb_starWidth="48dp"
+                    app:srb_stepSize="0.1" />
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="@drawable/edittext_rountd"
+                android:padding="5dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/trainer_rating_finish_reason"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:hint="@string/finish_reason"
+                    android:inputType="textMultiLine|textImeMultiLine"
+                    android:lines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="@drawable/edittext_rountd"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Caption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/attend_commitment" />
+
+                <com.willy.ratingbar.RotationRatingBar
+                    android:id="@+id/trainer_rating_ratingbar_attend"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    app:srb_clearRatingEnabled="true"
+                    app:srb_clickable="false"
+                    app:srb_drawableEmpty="@drawable/star_off_48"
+                    app:srb_drawableFilled="@drawable/star_on_48"
+                    app:srb_isIndicator="true"
+                    app:srb_minimumStars="1"
+                    app:srb_numStars="5"
+                    app:srb_rating="1"
+                    app:srb_scrollable="true"
+                    app:srb_starHeight="48dp"
+                    app:srb_starPadding="15dp"
+                    app:srb_starWidth="48dp"
+                    app:srb_stepSize="1.0" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="@drawable/edittext_rountd"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Caption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/learning_well" />
+
+                <com.willy.ratingbar.RotationRatingBar
+                    android:id="@+id/trainer_rating_ratingbar_learning_well"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    app:srb_clearRatingEnabled="true"
+                    app:srb_clickable="false"
+                    app:srb_drawableEmpty="@drawable/star_off_48"
+                    app:srb_drawableFilled="@drawable/star_on_48"
+                    app:srb_isIndicator="true"
+                    app:srb_minimumStars="1"
+                    app:srb_numStars="5"
+                    app:srb_rating="1"
+                    app:srb_scrollable="true"
+                    app:srb_starHeight="48dp"
+                    app:srb_starPadding="15dp"
+                    app:srb_starWidth="48dp"
+                    app:srb_stepSize="1.0" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="@drawable/edittext_rountd"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Caption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/learning_ability" />
+
+                <com.willy.ratingbar.RotationRatingBar
+                    android:id="@+id/trainer_rating_ratingbar_learning_ability"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    app:srb_clearRatingEnabled="true"
+                    app:srb_clickable="false"
+                    app:srb_drawableEmpty="@drawable/star_off_48"
+                    app:srb_drawableFilled="@drawable/star_on_48"
+                    app:srb_isIndicator="true"
+                    app:srb_minimumStars="1"
+                    app:srb_numStars="5"
+                    app:srb_rating="1"
+                    app:srb_scrollable="true"
+                    app:srb_starHeight="48dp"
+                    app:srb_starPadding="15dp"
+                    app:srb_starWidth="48dp"
+                    app:srb_stepSize="1.0" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="@drawable/edittext_rountd"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Caption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gained_skills" />
+
+                <com.willy.ratingbar.RotationRatingBar
+                    android:id="@+id/trainer_rating_ratingbar_gained_skills"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    app:srb_clearRatingEnabled="true"
+                    app:srb_clickable="false"
+                    app:srb_drawableEmpty="@drawable/star_off_48"
+                    app:srb_drawableFilled="@drawable/star_on_48"
+                    app:srb_isIndicator="true"
+                    app:srb_minimumStars="1"
+                    app:srb_numStars="5"
+                    app:srb_rating="1"
+                    app:srb_scrollable="true"
+                    app:srb_starHeight="48dp"
+                    app:srb_starPadding="15dp"
+                    app:srb_starWidth="48dp"
+                    app:srb_stepSize="1.0" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="@drawable/edittext_rountd"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Caption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/applying_skills" />
+
+                <com.willy.ratingbar.RotationRatingBar
+                    android:id="@+id/trainer_rating_ratingbar_applying_skills"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    app:srb_clearRatingEnabled="true"
+                    app:srb_clickable="false"
+                    app:srb_drawableEmpty="@drawable/star_off_48"
+                    app:srb_drawableFilled="@drawable/star_on_48"
+                    app:srb_isIndicator="true"
+                    app:srb_minimumStars="1"
+                    app:srb_numStars="5"
+                    app:srb_rating="1"
+                    app:srb_scrollable="true"
+                    app:srb_starHeight="48dp"
+                    app:srb_starPadding="15dp"
+                    app:srb_starWidth="48dp"
+                    app:srb_stepSize="1.0" />
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="@drawable/edittext_rountd"
+                android:padding="5dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/trainer_rating_recommendation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:hint="@string/recommendation"
+                    android:inputType="textMultiLine|textImeMultiLine"
+                    android:lines="3" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <include
+        android:id="@+id/progressView"
+        layout="@layout/loading_layout"
+        android:visibility="gone" />
+</FrameLayout>

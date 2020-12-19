@@ -151,22 +151,27 @@ public class ProfileFragment extends MyFragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        if(getArguments()!=null){
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (getArguments() != null) {
             ProfileFragmentArgs profileFragmentArgs = ProfileFragmentArgs.fromBundle(getArguments());
             studentId = profileFragmentArgs.getStudentId();
             trainingId = profileFragmentArgs.getTrainingId();
             getStudentInfo();
         }
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
 
     }
 
     private void getStudentInfo() {
         StudentMainActivity activity = (StudentMainActivity) getActivity();
         showProgressView();
-        String url = AppConstants.API_GET_STUDENT_INFO+"?student_id="+studentId+"&training_id="+trainingId;
+        String url = AppConstants.API_GET_STUDENT_INFO + "?student_id=" + studentId + "&training_id=" + trainingId;
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET,
                 url,
@@ -175,7 +180,7 @@ public class ProfileFragment extends MyFragment {
                     public void onResponse(String s) {
 
                         try {
-                            String response = activity.handleApiResponse(s);
+                            String response = handleApiResponse(s);
                             if (!response.isEmpty()) {
                                 JSONObject profileJsonObject = new JSONObject(response);
                                 String name=profileJsonObject.getString("name");
@@ -213,11 +218,11 @@ public class ProfileFragment extends MyFragment {
                                 profileViewModel.setFinishDate(profileJsonObject.getString("finish_date"));
 
                             } else {
-                                activity.showSnackbar(R.string.error);
+                                showSnackbar(R.string.error);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            activity.showSnackbar(R.string.error);
+                            showSnackbar(R.string.error);
                         }
 
                         hideProgressView();
@@ -226,7 +231,7 @@ public class ProfileFragment extends MyFragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 hideProgressView();
-                activity.showSnackbar(R.string.error);
+                showSnackbar(R.string.error);
             }
         }
         ) {

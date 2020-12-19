@@ -1,4 +1,4 @@
-package jo.edu.aau.aautraining.supervisor.ui.students.contacttrainer;
+package jo.edu.aau.aautraining.supervisor.ui.trainer.profile;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -36,18 +36,18 @@ import jo.edu.aau.aautraining.shared.MyAppCompatActivity;
 import jo.edu.aau.aautraining.shared.MyFragment;
 import jo.edu.aau.aautraining.shared.MySharedPreference;
 
-public class ContactTrainerFragment extends MyFragment {
+public class TrainerProfileFragment extends MyFragment {
 
-    private ContactTrainerViewModel mViewModel;
+    private TrainerProfileViewModel mViewModel;
 
-    public static ContactTrainerFragment newInstance() {
-        return new ContactTrainerFragment();
+    public static TrainerProfileFragment newInstance() {
+        return new TrainerProfileFragment();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = ViewModelProviders.of(this).get(ContactTrainerViewModel.class);
+        mViewModel = ViewModelProviders.of(this).get(TrainerProfileViewModel.class);
         View view = inflater.inflate(R.layout.supervisor_contact_trainer_fragment, container, false);
 
         RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
@@ -126,7 +126,7 @@ public class ContactTrainerFragment extends MyFragment {
         super.onViewCreated(view, savedInstanceState);
 
         if (getArguments() != null) {
-            int trainerId = ContactTrainerFragmentArgs.fromBundle(getArguments()).getTrainerId();
+            int trainerId = TrainerProfileFragmentArgs.fromBundle(getArguments()).getTrainerId();
             getTrainerInfo(trainerId);
         }
 

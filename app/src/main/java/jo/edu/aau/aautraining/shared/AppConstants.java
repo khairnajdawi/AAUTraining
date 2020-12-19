@@ -20,4 +20,9 @@ public class AppConstants {
     public static final String API_TRAINER_FINISH_TRAINING = API_BASE_URL + "trainer_finish_training.php";
     public static final String API_GET_SUPERVISOR_SCHEDULE = API_BASE_URL + "supervisor_get_schedule.php";
     public static final String API_GET_SUPERVISOR_STUDENT_LIST = API_BASE_URL + "supervisor_get_students_list.php";
+    public static final String SUPERVISOR_GET_TRAINER_REPORT = API_BASE_URL + "supervisor_get_trainer_report.php";
+    public static final String SUPERVISOR_ADD_SCHEDULE = API_BASE_URL + "supervisor_add_schedule.php";
+    public static final String SUPERVISOR_EDIT_SCHEDULE = API_BASE_URL + "supervisor_edit_schedule.php";
+    public static final String SUPERVISOR_DELETE_SCHEDULE = API_BASE_URL + "supervisor_delete_schedule.php";
+    public static final String SUPERVISOR_GET_SCHEDULE_INFO = API_BASE_URL + "supervisor_get_schedule_info.php";
 }

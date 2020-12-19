@@ -1,13 +1,13 @@
-package jo.edu.aau.aautraining.supervisor.ui.students.contacttrainer;
+package jo.edu.aau.aautraining.supervisor.ui.trainer.profile;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class ContactTrainerViewModel extends ViewModel {
+public class TrainerProfileViewModel extends ViewModel {
 
     private MutableLiveData<String> name, specialty, mobile, email, jobTitle, companyName, imageLink;
 
-    public ContactTrainerViewModel() {
+    public TrainerProfileViewModel() {
         name = new MutableLiveData<>();
         specialty = new MutableLiveData<>();
         mobile = new MutableLiveData<>();

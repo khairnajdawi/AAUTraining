@@ -9,12 +9,43 @@
         android:id="@+id/supervisor_nav_profile"
         android:name="jo.edu.aau.aautraining.supervisor.ui.profile.ProfileFragment"
         android:label="@string/Profile"
-        tools:layout="@layout/supervisor_profile_fragment"></fragment>
+        tools:layout="@layout/supervisor_profile_fragment" />
     <fragment
         android:id="@+id/supervisor_nav_schedule"
         android:name="jo.edu.aau.aautraining.supervisor.ui.schedule.ScheduleFragment"
         android:label="@string/my_schedule"
-        tools:layout="@layout/supervisor_schedule_fragment"></fragment>
+        tools:layout="@layout/supervisor_schedule_fragment">
+        <action
+            android:id="@+id/action_supervisor_nav_schedule_to_supervisor_nav_add_schedule"
+            app:destination="@id/supervisor_nav_add_schedule" />
+        <action
+            android:id="@+id/action_supervisor_nav_schedule_to_supervisor_nav_edit_schedule"
+            app:destination="@id/supervisor_nav_edit_schedule" />
+    </fragment>
+    <fragment
+        android:id="@+id/supervisor_nav_add_schedule"
+        android:name="jo.edu.aau.aautraining.supervisor.ui.schedule.ScheduleAddFragment"
+        android:label="@string/add_schedule"
+        tools:layout="@layout/supervisor_schedule_add_fragment">
+        <argument
+            android:name="training_id"
+            app:argType="integer" />
+        <argument
+            android:name="student_name"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/supervisor_nav_edit_schedule"
+        android:name="jo.edu.aau.aautraining.supervisor.ui.schedule.ScheduleEditFragment"
+        android:label="@string/edit_schedule"
+        tools:layout="@layout/supervisor_schedule_edit_fragment">
+        <argument
+            android:name="schedule_id"
+            app:argType="integer" />
+        <argument
+            android:name="student_name"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/supervisor_nav_student_list"
         android:name="jo.edu.aau.aautraining.supervisor.ui.students.SupervisorStudentsFragment"
@@ -41,10 +72,37 @@
         <action
             android:id="@+id/action_supervisor_nav_student_profile_to_supervisor_nav_contact_trainer"
             app:destination="@id/supervisor_nav_contact_trainer" />
+        <action
+            android:id="@+id/action_supervisor_nav_student_profile_to_supervisor_nav_trainer_rating"
+            app:destination="@id/supervisor_nav_trainer_rating" />
+        <action
+            android:id="@+id/action_supervisor_nav_student_profile_to_supervisor_nav_student_schedule"
+            app:destination="@id/supervisor_nav_student_schedule" />
+    </fragment>
+    <fragment
+        android:id="@+id/supervisor_nav_student_schedule"
+        android:name="jo.edu.aau.aautraining.supervisor.ui.students.schedule.StudentScheduleFragment"
+        android:label="@string/student_schedule"
+        tools:layout="@layout/supervisor_student_schedule_fragment">
+        <argument
+            android:name="training_id"
+            app:argType="integer" />
+        <argument
+            android:name="student_name"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_supervisor_nav_student_schedule_to_supervisor_nav_edit_schedule"
+            app:destination="@id/supervisor_nav_edit_schedule" />
+        <action
+            android:id="@+id/action_supervisor_nav_student_schedule_to_supervisor_nav_add_schedule"
+            app:destination="@id/supervisor_nav_add_schedule" />
+        <action
+            android:id="@+id/action_supervisor_nav_student_schedule_to_supervisor_nav_student_training_schedule_info"
+            app:destination="@id/supervisor_nav_student_training_schedule_info" />
     </fragment>
     <fragment
         android:id="@+id/supervisor_nav_contact_trainer"
-        android:name="jo.edu.aau.aautraining.supervisor.ui.students.contacttrainer.ContactTrainerFragment"
+        android:name="jo.edu.aau.aautraining.supervisor.ui.trainer.profile.TrainerProfileFragment"
         android:label="@string/contact_trainer"
         tools:layout="@layout/supervisor_contact_trainer_fragment">
         <argument
@@ -53,6 +111,27 @@
         <action
             android:id="@+id/action_supervisor_nav_contact_trainer_to_supervisor_nav_chat"
             app:destination="@id/supervisor_nav_chat" />
+    </fragment>
+    <fragment
+        android:id="@+id/supervisor_nav_trainer_rating"
+        android:name="jo.edu.aau.aautraining.supervisor.ui.trainer.rating.TrainerRatingFragment"
+        android:label="@string/trainer_rating"
+        tools:layout="@layout/supervisor_trainer_rating">
+        <argument
+            android:name="training_id"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/supervisor_nav_student_training_schedule_info"
+        android:name="jo.edu.aau.aautraining.supervisor.ui.students.schedule.StudentTrainingScheduleInfoFragment"
+        android:label="@string/training_schedule_details"
+        tools:layout="@layout/student_training_schedule_info_fragment">
+        <argument
+            android:name="schedule_id"
+            app:argType="integer" />
+        <argument
+            android:name="student_name"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/supervisor_nav_chat"
@@ -64,4 +143,11 @@
             android:defaultValue=""
             app:argType="string" />
     </fragment>
+
+
+    <fragment
+        android:id="@+id/supervisor_nav_logout"
+        android:name="jo.edu.aau.aautraining.shared.ui.logout.LogoutFragment"
+        android:label="@string/logout"
+        tools:layout="@layout/shared_logout_fragment"></fragment>
 </navigation>

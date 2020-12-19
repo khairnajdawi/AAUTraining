@@ -100,14 +100,18 @@ public class LoginActivity extends MyAppCompatActivity {
                                         String userRole = jsonObject.getString("user_role");
                                         if (userRole.equalsIgnoreCase("student")) {
                                             JSONObject infoJsonObject = jsonObject.getJSONObject("extra_info");
-                                            Intent i = new Intent(LoginActivity.this, StudentMainActivity.class);
-                                            i.putExtra("studentId",infoJsonObject.getInt("student_id"));
-                                            i.putExtra("supervisorId",infoJsonObject.getInt("supervisor_id"));
-                                            i.putExtra("trainerId",infoJsonObject.getInt("trainer_id"));
-                                            i.putExtra("trainingId",infoJsonObject.getInt("training_id"));
-                                            startActivity(i);
-                                            finish();
-                                            return;
+                                            if (infoJsonObject.getBoolean("has_training")) {
+                                                Intent i = new Intent(LoginActivity.this, StudentMainActivity.class);
+                                                i.putExtra("studentId", infoJsonObject.getInt("student_id"));
+                                                i.putExtra("supervisorId", infoJsonObject.getInt("supervisor_id"));
+                                                i.putExtra("trainerId", infoJsonObject.getInt("trainer_id"));
+                                                i.putExtra("trainingId", infoJsonObject.getInt("training_id"));
+                                                startActivity(i);
+                                                finish();
+                                                return;
+                                            } else {
+                                                showSnackbar(R.string.student_has_no_training);
+                                            }
                                         }else if (userRole.equalsIgnoreCase("trainer")) {
                                             Intent i = new Intent(LoginActivity.this, TrainersMainActivity.class);
                                             JSONObject infoJsonObject = jsonObject.getJSONObject("extra_info");
@@ -180,14 +184,18 @@ public class LoginActivity extends MyAppCompatActivity {
                                         String userRole = jsonObject.getString("user_role");
                                         if (userRole.equalsIgnoreCase("student")) {
                                             JSONObject infoJsonObject = jsonObject.getJSONObject("extra_info");
-                                            Intent i = new Intent(LoginActivity.this, StudentMainActivity.class);
-                                            i.putExtra("studentId",infoJsonObject.getInt("student_id"));
-                                            i.putExtra("supervisorId",infoJsonObject.getInt("supervisor_id"));
-                                            i.putExtra("trainerId",infoJsonObject.getInt("trainer_id"));
-                                            i.putExtra("trainingId",infoJsonObject.getInt("training_id"));
-                                            startActivity(i);
-                                            finish();
-                                            return;
+                                            if (infoJsonObject.getBoolean("has_training")) {
+                                                Intent i = new Intent(LoginActivity.this, StudentMainActivity.class);
+                                                i.putExtra("studentId", infoJsonObject.getInt("student_id"));
+                                                i.putExtra("supervisorId", infoJsonObject.getInt("supervisor_id"));
+                                                i.putExtra("trainerId", infoJsonObject.getInt("trainer_id"));
+                                                i.putExtra("trainingId", infoJsonObject.getInt("training_id"));
+                                                startActivity(i);
+                                                finish();
+                                                return;
+                                            } else {
+                                                showSnackbar(R.string.student_has_no_training);
+                                            }
                                         }else if (userRole.equalsIgnoreCase("trainer")) {
                                             Intent i = new Intent(LoginActivity.this, TrainersMainActivity.class);
                                             JSONObject infoJsonObject = jsonObject.getJSONObject("extra_info");

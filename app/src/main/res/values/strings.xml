@@ -113,4 +113,12 @@
     <string name="attend_days_count">#days attended</string>
     <string name="absence_days_count">#days absence</string>
     <string name="trainer_rating">View Trainer Rating</string>
+    <string name="student_has_no_training">You do not have active training</string>
+    <string name="choose_student">Choose Student</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="select_time">Select Time</string>
+    <string name="edit_schedule">Edit Schedule</string>
+    <string name="student_schedule">Student\'s Schedule</string>
+    <string name="training_schedule_details">Training Schedule Details</string>
 </resources>

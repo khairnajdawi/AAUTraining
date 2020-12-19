@@ -1,6 +1,5 @@
-package jo.edu.aau.aautraining.supervisor.ui.schedule;
+package jo.edu.aau.aautraining.supervisor.ui.students.schedule;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,7 +10,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
@@ -27,6 +26,7 @@ import com.github.tibolte.agendacalendarview.models.BaseCalendarEvent;
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
 import com.github.tibolte.agendacalendarview.models.DayItem;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,42 +43,56 @@ import java.util.Map;
 
 import jo.edu.aau.aautraining.R;
 import jo.edu.aau.aautraining.shared.AppConstants;
+import jo.edu.aau.aautraining.shared.MyAppCompatActivity;
 import jo.edu.aau.aautraining.shared.MyFragment;
 import jo.edu.aau.aautraining.shared.MySharedPreference;
-import jo.edu.aau.aautraining.supervisor.SupervisorMainActivity;
-import jo.edu.aau.aautraining.supervisor.ui.students.StudentModel;
-import jo.edu.aau.aautraining.trainer.TrainersMainActivity;
-import jo.edu.aau.aautraining.trainer.ui.trainee.TraineeModel;
+import jo.edu.aau.aautraining.trainer.ui.trainee.schedule.TrainerTraineeScheduleFragmentArgs;
 
-public class ScheduleFragment extends MyFragment implements CalendarPickerController {
+public class StudentScheduleFragment extends MyFragment implements CalendarPickerController {
 
-    private ScheduleViewModel scheduleViewModel;
+    private StudentScheduleViewModel mViewModel;
     private AgendaCalendarView mAgendaCalendarView;
+    private String studentName;
+    private int trainingId;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+    public static StudentScheduleFragment newInstance() {
+        return new StudentScheduleFragment();
+    }
+
+    @Override
+    public void onStart() {
+        if (getArguments() != null) {
+            trainingId = StudentScheduleFragmentArgs.fromBundle(getArguments()).getTrainingId();
+            studentName = StudentScheduleFragmentArgs.fromBundle(getArguments()).getStudentName();
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Schedule | " + studentName);
+        }
+        super.onStart();
+        getTraineeSchedule();
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        scheduleViewModel =
-                ViewModelProviders.of(this).get(ScheduleViewModel.class);
-        View root = inflater.inflate(R.layout.supervisor_schedule_fragment, container, false);
+        mViewModel = ViewModelProviders.of(this).get(StudentScheduleViewModel.class);
+        View root = inflater.inflate(R.layout.supervisor_student_schedule_fragment, container, false);
         mAgendaCalendarView = root.findViewById(R.id.agenda_calendar_view);
+
         return root;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getTrainerSchedule();
     }
 
-    private void getTrainerSchedule() {
+    private void getTraineeSchedule() {
         showProgressView();
         List<CalendarEvent> eventList = new ArrayList<>();
-        SupervisorMainActivity activity = (SupervisorMainActivity) getActivity();
-        int supervisorId = activity.getSupervisorId();
+        MyAppCompatActivity activity = (MyAppCompatActivity) getActivity();
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET,
-                AppConstants.API_GET_SUPERVISOR_SCHEDULE + "?supervisor_id=" + supervisorId,
+                AppConstants.API_GET_TRAINEE_SCHEDULE_FOR_TRAINER + "?training_id=" + trainingId,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
@@ -87,23 +101,38 @@ public class ScheduleFragment extends MyFragment implements CalendarPickerContro
                             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
                             String response = activity.handleApiResponse(s);
-                            JSONArray trainingScheduleJsonArray = new JSONArray(response);
+                            JSONObject jsonResponse = new JSONObject(response);
+                            JSONArray trainingScheduleJsonArray = jsonResponse.getJSONArray("training_schedule");
                             for (int i = 0; i < trainingScheduleJsonArray.length(); i++) {
                                 JSONObject tsJsonObject = trainingScheduleJsonArray.getJSONObject(i);
-                                String trainingPlace = "AAU Office" + " @" + tsJsonObject.getString("sch_time");
-                                String trainingDate = tsJsonObject.getString("sch_date");
-                                String studentName = tsJsonObject.getString("student_name");
-                                String scheduleId = tsJsonObject.getString("schedule_id");
+                                String trainingPlace = tsJsonObject.getString("training_place");
+                                String trainingDate = tsJsonObject.getString("training_date");
                                 Date date = sdf.parse(trainingDate);
                                 Calendar startTime1 = Calendar.getInstance();
                                 startTime1.setTime(date);
                                 Calendar endTime1 = Calendar.getInstance();
                                 endTime1.setTime(date);
-                                BaseCalendarEvent event1 = new BaseCalendarEvent(studentName, "Training Day", trainingPlace,
+                                BaseCalendarEvent event1 = new BaseCalendarEvent("Training", "Training Day", trainingPlace,
                                         ContextCompat.getColor(getContext(), R.color.colorPrimary), startTime1, endTime1, true);
-                                event1.setId(Long.parseLong(scheduleId));
-
+                                event1.setId(tsJsonObject.getLong("id"));
                                 eventList.add(event1);
+                            }
+
+                            JSONArray officeScheduleJsonArray = jsonResponse.getJSONArray("office_schedule");
+                            for (int u = 0; u < officeScheduleJsonArray.length(); u++) {
+                                JSONObject osJsonObject = officeScheduleJsonArray.getJSONObject(u);
+                                String osDate = osJsonObject.getString("sch_date");
+                                String osTime = osJsonObject.getString("sch_time");
+                                Date date2 = sdf.parse(osDate);
+                                Calendar startTime2 = Calendar.getInstance();
+                                startTime2.setTime(date2);
+                                Calendar endTime2 = Calendar.getInstance();
+                                endTime2.setTime(date2);
+                                BaseCalendarEvent event2 = new BaseCalendarEvent("Supervisor meeting", "Supervisor meeting", "AAU Office @" + osTime,
+                                        ContextCompat.getColor(getContext(), R.color.colorAccent), startTime2, endTime2, false);
+                                event2.setId(osJsonObject.getLong("id"));
+                                eventList.add(event2);
+
                             }
 
                             Calendar minDate = Calendar.getInstance();
@@ -111,7 +140,7 @@ public class ScheduleFragment extends MyFragment implements CalendarPickerContro
                             minDate.add(Calendar.YEAR, -1);
                             minDate.set(Calendar.DAY_OF_MONTH, 1);
                             maxDate.add(Calendar.YEAR, 1);
-                            mAgendaCalendarView.init(eventList, minDate, maxDate, Locale.getDefault(), ScheduleFragment.this);
+                            mAgendaCalendarView.init(eventList, minDate, maxDate, Locale.getDefault(), StudentScheduleFragment.this);
                         } catch (JSONException | ParseException e) {
                             e.printStackTrace();
                             activity.showSnackbar(R.string.error);
@@ -145,12 +174,19 @@ public class ScheduleFragment extends MyFragment implements CalendarPickerContro
 
     @Override
     public void onEventSelected(CalendarEvent event) {
-        long scheduleId = event.getId();
-        String traineeName = event.getTitle();
-        Bundle bundle = new Bundle();
-        bundle.putString("student_name", traineeName);
-        bundle.putInt("schedule_id", (int) scheduleId);
-        Navigation.createNavigateOnClickListener(R.id.action_supervisor_nav_schedule_to_supervisor_nav_edit_schedule, bundle).onClick(mAgendaCalendarView);
+        if (event.getId() > 0) {
+            if (event.getTitle().equalsIgnoreCase("training")) {
+                Bundle bundle = new Bundle();
+                bundle.putString("student_name", studentName);
+                bundle.putInt("schedule_id", (int) event.getId());
+                Navigation.createNavigateOnClickListener(R.id.action_supervisor_nav_student_schedule_to_supervisor_nav_student_training_schedule_info, bundle).onClick(mAgendaCalendarView);
+            } else {
+                Bundle bundle = new Bundle();
+                bundle.putString("student_name", studentName);
+                bundle.putInt("schedule_id", (int) event.getId());
+                Navigation.createNavigateOnClickListener(R.id.action_supervisor_nav_student_schedule_to_supervisor_nav_edit_schedule, bundle).onClick(mAgendaCalendarView);
+            }
+        }
     }
 
     @Override
@@ -166,35 +202,13 @@ public class ScheduleFragment extends MyFragment implements CalendarPickerContro
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    public boolean onOptionsItemSelected(@NotNull MenuItem item) {
         if (item.getItemId() == 1) {
-            selectStudentForScheduleAdd();
+            Bundle bundle = new Bundle();
+            bundle.putString("student_name", studentName);
+            bundle.putInt("training_id", trainingId);
+            Navigation.createNavigateOnClickListener(R.id.action_supervisor_nav_student_schedule_to_supervisor_nav_add_schedule, bundle).onClick(mAgendaCalendarView);
         }
         return super.onOptionsItemSelected(item);
     }
-
-    private void selectStudentForScheduleAdd() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle(R.string.choose_student);
-        SupervisorMainActivity activity = (SupervisorMainActivity) getActivity();
-        List<StudentModel> studentsList = activity.getStudentsList();
-        List<String> studentsNamesList = new ArrayList<>();
-        for (int i = 0; i < studentsList.size(); i++) {
-            StudentModel studentModel = studentsList.get(i);
-            studentsNamesList.add(studentModel.getStudentName().getValue());
-        }
-        builder.setItems(studentsNamesList.toArray(new String[0]), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) {
-                StudentModel studentModel = studentsList.get(item);
-                Bundle bundle = new Bundle();
-                bundle.putString("student_name", studentModel.getStudentName().getValue());
-                bundle.putInt("training_id", studentModel.getTrainingId().getValue());
-                Navigation.createNavigateOnClickListener(R.id.action_supervisor_nav_schedule_to_supervisor_nav_add_schedule, bundle).onClick(mAgendaCalendarView);
-            }
-        });
-
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
-
 }
