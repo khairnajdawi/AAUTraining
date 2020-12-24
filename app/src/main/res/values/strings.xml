@@ -3,7 +3,6 @@
     <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="username">User Name</string>
-    <string name="title_activity_student_main">StudentMainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_desc">Navigation header</string>
@@ -48,10 +47,7 @@
     <string name="training_field">Training Field</string>
     <string name="training_start_date">Training Start Date</string>
     <string name="training_end_date">Training End Date</string>
-    <string name="title_activity_trainer_main">TrainerMainActivity</string>
     <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="title_activity_trainers_main">TrainersMainActivity</string>
     <string name="trainee_list">Trainee List</string>
     <string name="trainee_profile">Trainee Profile</string>
     <string name="average_rating">Average Rating</string>
@@ -83,6 +79,7 @@
     <string-array name="finish_reason_array">
         <item>@string/complete_required_hours</item>
         <item>@string/frequent_absence</item>
+        <item>@string/other_reason</item>
     </string-array>
     <string name="add_trainee_schedule">Add Trainee Schedule</string>
     <string name="enter_schedule_date">Enter  schedule date</string>
@@ -105,9 +102,8 @@
     <string name="applying_skills">Applying Learnt skills</string>
     <string name="frequent_absence">Frequent Absence</string>
     <string name="complete_required_hours">Complete Required Hours</string>
+    <string name="other_reason">Other reason</string>
     <string name="enter_recommendation">Please enter your recommendation</string>
-    <string name="title_activity_supervisor_main">SupervisorMainActivity</string>
-    <string name="title_activity_supervisors_main">SupervisorsMainActivity</string>
     <string name="students_list">Students List</string>
     <string name="student_profile">Student Profile</string>
     <string name="attend_days_count">#days attended</string>
@@ -121,4 +117,5 @@
     <string name="edit_schedule">Edit Schedule</string>
     <string name="student_schedule">Student\'s Schedule</string>
     <string name="training_schedule_details">Training Schedule Details</string>
+    <string name="supervisor_rating">Supervisor Rating</string>
 </resources>

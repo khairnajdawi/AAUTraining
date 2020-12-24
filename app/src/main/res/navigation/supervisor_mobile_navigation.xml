@@ -78,6 +78,12 @@
         <action
             android:id="@+id/action_supervisor_nav_student_profile_to_supervisor_nav_student_schedule"
             app:destination="@id/supervisor_nav_student_schedule" />
+        <action
+            android:id="@+id/action_supervisor_nav_student_profile_to_supervisor_nav_finish_training"
+            app:destination="@id/supervisor_nav_finish_training" />
+        <action
+            android:id="@+id/action_supervisor_nav_student_profile_to_supervisor_nav_rating"
+            app:destination="@id/supervisor_nav_rating" />
     </fragment>
     <fragment
         android:id="@+id/supervisor_nav_student_schedule"
@@ -149,5 +155,23 @@
         android:id="@+id/supervisor_nav_logout"
         android:name="jo.edu.aau.aautraining.shared.ui.logout.LogoutFragment"
         android:label="@string/logout"
-        tools:layout="@layout/shared_logout_fragment"></fragment>
+        tools:layout="@layout/shared_logout_fragment" />
+    <fragment
+        android:id="@+id/supervisor_nav_finish_training"
+        android:name="jo.edu.aau.aautraining.supervisor.ui.students.finish.FinishTrainingFragment"
+        android:label="@string/finish_training"
+        tools:layout="@layout/supervisor_finish_fragment">
+        <argument
+            android:name="training_id"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/supervisor_nav_rating"
+        android:name="jo.edu.aau.aautraining.supervisor.ui.students.rating.SupervisorRatingFragment"
+        android:label="@string/supervisor_rating"
+        tools:layout="@layout/supervisor_rating_fragment">
+        <argument
+            android:name="training_id"
+            app:argType="integer" />
+    </fragment>
 </navigation>

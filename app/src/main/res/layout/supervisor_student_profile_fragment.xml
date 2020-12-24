@@ -338,6 +338,14 @@
                         android:backgroundTint="@color/btn_colored_background_tint"
                         android:text="@string/finish_training" />
 
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/student_profile_supervisor_rating_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/btn_colored_background_tint"
+                        android:text="@string/supervisor_rating"
+                        android:visibility="gone" />
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>

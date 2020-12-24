@@ -1,7 +1,7 @@
 package jo.edu.aau.aautraining.shared;
 
 public class AppConstants {
-    public static final String API_BASE_URL = "https://aautraining.000webhostapp.com/";
+    public static final String API_BASE_URL = "https://aautraining.000webhostapp.com/api/";
     //Login
     public static final String API_LOGIN_URL = API_BASE_URL + "login.php";
     public static final String API_TOKEN_LOGIN_URL = API_BASE_URL + "login_with_token.php";
@@ -25,4 +25,6 @@ public class AppConstants {
     public static final String SUPERVISOR_EDIT_SCHEDULE = API_BASE_URL + "supervisor_edit_schedule.php";
     public static final String SUPERVISOR_DELETE_SCHEDULE = API_BASE_URL + "supervisor_delete_schedule.php";
     public static final String SUPERVISOR_GET_SCHEDULE_INFO = API_BASE_URL + "supervisor_get_schedule_info.php";
+    public static final String SUPERVISOR_FINISH_STUDENT_TRAINING = API_BASE_URL + "supervisor_finish_training.php";
+    public static final String SUPERVISOR_GET_RATING = API_BASE_URL + "supervisor_get_rating.php";
 }

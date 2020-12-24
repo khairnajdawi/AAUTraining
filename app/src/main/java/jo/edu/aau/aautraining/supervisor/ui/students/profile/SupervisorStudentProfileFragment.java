@@ -10,14 +10,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.kofigyan.stateprogressbar.StateProgressBar;
 import com.yanzhikai.pictureprogressbar.PictureProgressBar;
@@ -33,7 +29,6 @@ import jo.edu.aau.aautraining.R;
 import jo.edu.aau.aautraining.shared.AppConstants;
 import jo.edu.aau.aautraining.shared.MyFragment;
 import jo.edu.aau.aautraining.shared.MySharedPreference;
-import jo.edu.aau.aautraining.student.StudentMainActivity;
 
 public class SupervisorStudentProfileFragment extends MyFragment implements View.OnClickListener {
 
@@ -54,107 +49,44 @@ public class SupervisorStudentProfileFragment extends MyFragment implements View
         View root = inflater.inflate(R.layout.supervisor_student_profile_fragment, container, false);
 
         final TextView nameTextView = root.findViewById(R.id.student_profile_name_tv);
-        profileViewModel.getStudentName().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                nameTextView.setText(s);
-            }
-        });
+        profileViewModel.getStudentName().observe(getViewLifecycleOwner(), nameTextView::setText);
         final TextView facultyNameTV = root.findViewById(R.id.student_profile_faculty_name_tv);
-        profileViewModel.getFacultyName().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                facultyNameTV.setText(s);
-            }
-        });
+        profileViewModel.getFacultyName().observe(getViewLifecycleOwner(), facultyNameTV::setText);
         final TextView majorTitleTV = root.findViewById(R.id.student_profile_major_tv);
-        profileViewModel.getStudentMajor().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                majorTitleTV.setText(s);
-            }
-        });
+        profileViewModel.getStudentMajor().observe(getViewLifecycleOwner(), majorTitleTV::setText);
         final TextView numberTextView = root.findViewById(R.id.student_profile_number_tv);
-        profileViewModel.getStudentUniNo().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                numberTextView.setText(s);
-            }
-        });
+        profileViewModel.getStudentUniNo().observe(getViewLifecycleOwner(), numberTextView::setText);
         final TextView companyTextView = root.findViewById(R.id.student_profile_company_tv);
-        profileViewModel.getCompanyName().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                companyTextView.setText(s);
-            }
-        });
+        profileViewModel.getCompanyName().observe(getViewLifecycleOwner(), companyTextView::setText);
 
         final TextView fieldTextView = root.findViewById(R.id.student_profile_field_tv);
-        profileViewModel.getTrainingField().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                fieldTextView.setText(s);
-            }
-        });
+        profileViewModel.getTrainingField().observe(getViewLifecycleOwner(), fieldTextView::setText);
 
         final TextView startDateTextView = root.findViewById(R.id.student_profile_start_date_tv);
-        profileViewModel.getStartDate().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                startDateTextView.setText(s);
-            }
-        });
+        profileViewModel.getStartDate().observe(getViewLifecycleOwner(), startDateTextView::setText);
 
         final TextView endDateTextView = root.findViewById(R.id.student_profile_end_date_tv);
-        profileViewModel.getFinishDate().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                endDateTextView.setText(s);
-            }
-        });
+        profileViewModel.getFinishDate().observe(getViewLifecycleOwner(), endDateTextView::setText);
         final TextView attendDaysTextView = root.findViewById(R.id.student_profile_attend_days_tv);
-        profileViewModel.getAttendDaysCount().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(@Nullable Integer daysCount) {
-                attendDaysTextView.setText(String.valueOf(daysCount));
-            }
-        });
+        profileViewModel.getAttendDaysCount().observe(getViewLifecycleOwner(), daysCount -> attendDaysTextView.setText(String.valueOf(daysCount)));
         final TextView absenceDaysTextView = root.findViewById(R.id.student_profile_absence_days_tv);
-        profileViewModel.getAttendDaysCount().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(@Nullable Integer daysCount) {
-                absenceDaysTextView.setText(String.valueOf(daysCount));
-            }
-        });
+        profileViewModel.getAttendDaysCount().observe(getViewLifecycleOwner(), daysCount -> absenceDaysTextView.setText(String.valueOf(daysCount)));
 
 
         final TextView requiredHoursTextView = root.findViewById(R.id.student_profile_required_hours_tv);
-        profileViewModel.getRequiredHours().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                requiredHoursTextView.setText(s);
-            }
-        });
+        profileViewModel.getRequiredHours().observe(getViewLifecycleOwner(), requiredHoursTextView::setText);
 
         final TextView passedHoursTextView = root.findViewById(R.id.student_profile_passed_hours_tv);
-        profileViewModel.getPassHours().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                passedHoursTextView.setText(s);
-            }
-        });
+        profileViewModel.getPassHours().observe(getViewLifecycleOwner(), passedHoursTextView::setText);
 
         final TextView hoursStatusTextView = root.findViewById(R.id.student_profile_status_hours_tv);
-        profileViewModel.getRemainHours().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String remainHoursString) {
-                String s = String.format(
-                        Locale.US,
-                        "%sH passed / %sH To Complete",
-                        profileViewModel.getPassHours().getValue(),
-                        remainHoursString);
-                hoursStatusTextView.setText(s);
-            }
+        profileViewModel.getRemainHours().observe(getViewLifecycleOwner(), remainHoursString -> {
+            String s = String.format(
+                    Locale.US,
+                    "%sH passed / %sH To Complete",
+                    profileViewModel.getPassHours().getValue(),
+                    remainHoursString);
+            hoursStatusTextView.setText(s);
         });
 
 
@@ -173,47 +105,52 @@ public class SupervisorStudentProfileFragment extends MyFragment implements View
         trainerRatingButton.setOnClickListener(this);
         AppCompatButton finishTrainingButton = root.findViewById(R.id.student_profile_finish_training_btn);
         finishTrainingButton.setOnClickListener(this);
-        profileViewModel.getTrainingStatus().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer status) {
-                switch (status) {
-                    case 0:
-                        stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.ONE);
-                        trainerRatingButton.setVisibility(View.GONE);
-                        finishTrainingButton.setVisibility(View.GONE);
-                        break;
-                    case 1:
-                        stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
-                        trainerRatingButton.setVisibility(View.GONE);
-                        finishTrainingButton.setVisibility(View.GONE);
-                        break;
-                    case 2:
-                        stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.THREE);
-                        trainerRatingButton.setVisibility(View.VISIBLE);
-                        finishTrainingButton.setVisibility(View.VISIBLE);
-                        break;
-                    case 3:
-                        stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.FOUR);
-                        trainerRatingButton.setVisibility(View.VISIBLE);
-                        finishTrainingButton.setVisibility(View.GONE);
-                        break;
-                    case 4:
-                        stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.FIVE);
-                        trainerRatingButton.setVisibility(View.VISIBLE);
-                        finishTrainingButton.setVisibility(View.GONE);
-                        stateProgressBar.setAllStatesCompleted(true);
-                        break;
-                    case 5:
-                        trainerRatingButton.setVisibility(View.VISIBLE);
-                        finishTrainingButton.setVisibility(View.GONE);
-                        descriptionData = new String[]{"Start", "Training", "Final Report", "Complete", "Fail"};
-                        stateProgressBar.setStateDescriptionData(descriptionData);
-                        stateProgressBar.setAllStatesCompleted(true);
-                        stateProgressBar.setForegroundColor(Color.RED);
-                        break;
-                }
-
+        AppCompatButton supervisorRating = root.findViewById(R.id.student_profile_supervisor_rating_btn);
+        supervisorRating.setOnClickListener(this);
+        profileViewModel.getTrainingStatus().observe(getViewLifecycleOwner(), status -> {
+            switch (status) {
+                case 0:
+                    stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.ONE);
+                    trainerRatingButton.setVisibility(View.GONE);
+                    finishTrainingButton.setVisibility(View.GONE);
+                    supervisorRating.setVisibility(View.GONE);
+                    break;
+                case 1:
+                    stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
+                    trainerRatingButton.setVisibility(View.GONE);
+                    finishTrainingButton.setVisibility(View.GONE);
+                    supervisorRating.setVisibility(View.GONE);
+                    break;
+                case 2:
+                    stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.THREE);
+                    trainerRatingButton.setVisibility(View.VISIBLE);
+                    finishTrainingButton.setVisibility(View.VISIBLE);
+                    supervisorRating.setVisibility(View.GONE);
+                    break;
+                case 3:
+                    stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.FOUR);
+                    trainerRatingButton.setVisibility(View.VISIBLE);
+                    finishTrainingButton.setVisibility(View.GONE);
+                    supervisorRating.setVisibility(View.VISIBLE);
+                    break;
+                case 4:
+                    stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.FIVE);
+                    trainerRatingButton.setVisibility(View.VISIBLE);
+                    finishTrainingButton.setVisibility(View.GONE);
+                    supervisorRating.setVisibility(View.VISIBLE);
+                    stateProgressBar.setAllStatesCompleted(true);
+                    break;
+                case 5:
+                    trainerRatingButton.setVisibility(View.VISIBLE);
+                    finishTrainingButton.setVisibility(View.GONE);
+                    supervisorRating.setVisibility(View.VISIBLE);
+                    descriptionData = new String[]{"Start", "Training", "Final Report", "Complete", "Fail"};
+                    stateProgressBar.setStateDescriptionData(descriptionData);
+                    stateProgressBar.setAllStatesCompleted(true);
+                    stateProgressBar.setForegroundColor(Color.RED);
+                    break;
             }
+
         });
         return root;
     }
@@ -242,67 +179,50 @@ public class SupervisorStudentProfileFragment extends MyFragment implements View
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET,
                 url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String s) {
+                s -> {
 
-                        try {
-                            String response = handleApiResponse(s);
-                            if (!response.isEmpty()) {
-                                JSONObject profileJsonObject = new JSONObject(response);
-                                String name = profileJsonObject.getString("name");
-                                profileViewModel.setStudentName(name);
-                                profileViewModel.setFacultyName(profileJsonObject.getString("faculty_name"));
-                                profileViewModel.setStudentMajor(profileJsonObject.getString("major_title"));
-                                profileViewModel.setStudentUniNo(profileJsonObject.getString("uni_no"));
-                                profileViewModel.setCompanyName(profileJsonObject.getString("company_name"));
-                                profileViewModel.setTrainingField(profileJsonObject.getString("training_field"));
-                                profileViewModel.setTrainerId(profileJsonObject.getInt("trainer_id"));
-                                profileViewModel.setAttendDaysCount(profileJsonObject.getInt("attend_days_count"));
-                                profileViewModel.setAbsenceDaysCount(profileJsonObject.getInt("absence_days_count"));
-                                int trainingStatus = profileJsonObject.getInt("training_status");
-                                profileViewModel.setTrainingStatus(trainingStatus);
-                                switch (trainingStatus) {
-                                    case 1:
-                                        stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
-                                        break;
-                                    case 2:
-                                        stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.THREE);
-                                        break;
-                                    default:
-                                        stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.FOUR);
-                                        break;
-                                }
-                                String passedHours = profileJsonObject.getString("passed_hours");
-                                profileViewModel.setPassHours(passedHours);
-                                String requiredHours = profileJsonObject.getString("required_hours");
-                                profileViewModel.setRequiredHours(requiredHours);
-                                String remainHours = profileJsonObject.getString("remain_hours");
-                                profileViewModel.setRemainHours(remainHours);
-                                double passedValue = Integer.parseInt(passedHours.split(":")[0]) * 60 + Integer.parseInt(passedHours.split(":")[1]);
-                                double requiredValue = Integer.parseInt(requiredHours.split(":")[0]) * 60 + Integer.parseInt(requiredHours.split(":")[1]);
-                                int passedPercent = (int) ((passedValue / requiredValue) * 100);
-                                if (passedPercent > 100) passedPercent = 100;
-                                pictureProgressBar.setProgress(passedPercent);
-                                profileViewModel.setStartDate(profileJsonObject.getString("start_date"));
-                                profileViewModel.setFinishDate(profileJsonObject.getString("finish_date"));
+                    try {
+                        String response = handleApiResponse(s);
+                        if (!response.isEmpty()) {
+                            JSONObject profileJsonObject = new JSONObject(response);
+                            String name = profileJsonObject.getString("name");
+                            profileViewModel.setStudentName(name);
+                            profileViewModel.setFacultyName(profileJsonObject.getString("faculty_name"));
+                            profileViewModel.setStudentMajor(profileJsonObject.getString("major_title"));
+                            profileViewModel.setStudentUniNo(profileJsonObject.getString("uni_no"));
+                            profileViewModel.setCompanyName(profileJsonObject.getString("company_name"));
+                            profileViewModel.setTrainingField(profileJsonObject.getString("training_field"));
+                            profileViewModel.setTrainerId(profileJsonObject.getInt("trainer_id"));
+                            profileViewModel.setAttendDaysCount(profileJsonObject.getInt("attend_days_count"));
+                            profileViewModel.setAbsenceDaysCount(profileJsonObject.getInt("absence_days_count"));
+                            int trainingStatus = profileJsonObject.getInt("training_status");
+                            profileViewModel.setTrainingStatus(trainingStatus);
+                            String passedHours = profileJsonObject.getString("passed_hours");
+                            profileViewModel.setPassHours(passedHours);
+                            String requiredHours = profileJsonObject.getString("required_hours");
+                            profileViewModel.setRequiredHours(requiredHours);
+                            String remainHours = profileJsonObject.getString("remain_hours");
+                            profileViewModel.setRemainHours(remainHours);
+                            double passedValue = Integer.parseInt(passedHours.split(":")[0]) * 60 + Integer.parseInt(passedHours.split(":")[1]);
+                            double requiredValue = Integer.parseInt(requiredHours.split(":")[0]) * 60 + Integer.parseInt(requiredHours.split(":")[1]);
+                            int passedPercent = (int) ((passedValue / requiredValue) * 100);
+                            if (passedPercent > 100) passedPercent = 100;
+                            pictureProgressBar.setProgress(passedPercent);
+                            profileViewModel.setStartDate(profileJsonObject.getString("start_date"));
+                            profileViewModel.setFinishDate(profileJsonObject.getString("finish_date"));
 
-                            } else {
-                                showSnackbar(R.string.error);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        } else {
                             showSnackbar(R.string.error);
                         }
-
-                        hideProgressView();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        showSnackbar(R.string.error);
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                hideProgressView();
-                showSnackbar(R.string.error);
-            }
+
+                    hideProgressView();
+                }, error -> {
+            hideProgressView();
+            showSnackbar(R.string.error);
         }
         ) {
 
@@ -343,6 +263,14 @@ public class SupervisorStudentProfileFragment extends MyFragment implements View
                 Navigation.createNavigateOnClickListener(R.id.action_supervisor_nav_student_profile_to_supervisor_nav_trainer_rating, bundle3).onClick(view);
                 break;
             case R.id.student_profile_finish_training_btn:
+                Bundle bundle4 = new Bundle();
+                bundle4.putInt("training_id", trainingId);
+                Navigation.createNavigateOnClickListener(R.id.action_supervisor_nav_student_profile_to_supervisor_nav_finish_training, bundle4).onClick(view);
+                break;
+            case R.id.student_profile_supervisor_rating_btn:
+                Bundle bundle6 = new Bundle();
+                bundle6.putInt("training_id", trainingId);
+                Navigation.createNavigateOnClickListener(R.id.action_supervisor_nav_student_profile_to_supervisor_nav_rating, bundle6).onClick(view);
                 break;
         }
     }
