@@ -27,20 +27,20 @@ import jo.edu.aau.aautraining.R;
 
 public class MyFragment extends Fragment {
 
-    private View progressView;
+    private final String RequestQueueTag = "AAU";
     public RequestQueue mRequestQueue;
     public ImageLoader mImageLoader;
     protected MySharedPreference mySharedPreference;
+    private View progressView;
     private Snackbar snackbar;
-    private final String RequestQueueTag = "AAU";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mRequestQueue = Volley.newRequestQueue(getContext());
+        mRequestQueue = Volley.newRequestQueue(requireContext());
         mImageLoader = new ImageLoader(mRequestQueue, new ImageLoader.ImageCache() {
 
-            private final LruCache<String, Bitmap> mCache = new LruCache<String, Bitmap>(10);
+            private final LruCache<String, Bitmap> mCache = new LruCache<>(10);
 
             public Bitmap getBitmap(String url) {
                 return mCache.get(url);
@@ -57,14 +57,16 @@ public class MyFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mySharedPreference = new MySharedPreference(requireContext());
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        progressView=view.findViewById(R.id.progressView);
-        snackbar = Snackbar.make(getActivity().getWindow().getDecorView(), getResources().getString(R.string.error), Snackbar.LENGTH_LONG);
-        snackbar.getView().setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+        progressView = view.findViewById(R.id.progressView);
+        View parent = getActivity().findViewById(android.R.id.content);
+        snackbar = Snackbar.make(parent, getResources().getString(R.string.error), Snackbar.LENGTH_LONG);
+        snackbar.getView().setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.holo_red_light));
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) snackbar.getView().getLayoutParams();
         layoutParams.bottomMargin = (int) getResources().getDimension(R.dimen.navbar_size);
         snackbar.getView().setLayoutParams(layoutParams);
@@ -72,31 +74,13 @@ public class MyFragment extends Fragment {
         snackbar.setDuration(Snackbar.LENGTH_LONG);
         setSnackbarActionDismiss();
     }
-    protected void showProgressView(){
+
+    protected void showProgressView() {
         progressView.setVisibility(View.VISIBLE);
     }
-    protected void hideProgressView(){
+
+    protected void hideProgressView() {
         progressView.setVisibility(View.GONE);
-    }
-
-    private void setSnackbarDurationIndefinite() {
-        snackbar.setDuration(Snackbar.LENGTH_INDEFINITE);
-    }
-
-    private void setSnackbarDurationLong() {
-        snackbar.setDuration(Snackbar.LENGTH_LONG);
-    }
-
-    private void setSnackbarDurationShort() {
-        snackbar.setDuration(Snackbar.LENGTH_SHORT);
-    }
-
-    protected void hideSnackbar() {
-        snackbar.dismiss();
-    }
-
-    protected void setSnackbarMessage(int msgResId) {
-        snackbar.setText(msgResId);
     }
 
     protected void showSnackbar() {
@@ -109,32 +93,7 @@ public class MyFragment extends Fragment {
     }
 
     protected void setSnackbarActionDismiss() {
-        snackbar.setAction(R.string.dismiss, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                snackbar.dismiss();
-            }
-        });
-    }
-
-    protected void setSnackbarAction(int stringResId, View.OnClickListener ocl) {
-        snackbar.setAction(stringResId, ocl);
-    }
-
-    public RequestQueue getRequestQueue() {
-        return mRequestQueue;
-    }
-
-    public void setRequestQueue(RequestQueue requestQueue) {
-        this.mRequestQueue = requestQueue;
-    }
-
-    public ImageLoader getImageLoader() {
-        return mImageLoader;
-    }
-
-    public void setImageLoader(ImageLoader imageLoader) {
-        this.mImageLoader = imageLoader;
+        snackbar.setAction(R.string.dismiss, view -> snackbar.dismiss());
     }
 
     @Override
@@ -142,7 +101,9 @@ public class MyFragment extends Fragment {
         super.onDestroyView();
         mRequestQueue.cancelAll(RequestQueueTag);
     }
+
     public void addVolleyStringRequest(StringRequest stringRequest) {
+        stringRequest.setShouldCache(false);
         stringRequest.setTag(RequestQueueTag);
         mRequestQueue.add(stringRequest);
     }
@@ -156,7 +117,7 @@ public class MyFragment extends Fragment {
                 hideProgressView();
                 return "";
             }
-            if (!jsonObject.getBoolean("auth_status") ) {
+            if (!jsonObject.getBoolean("auth_status")) {
                 signOutAuthFail();
                 return "";
             }

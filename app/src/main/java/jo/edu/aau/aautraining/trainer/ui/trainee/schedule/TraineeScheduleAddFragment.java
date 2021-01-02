@@ -58,7 +58,7 @@ public class TraineeScheduleAddFragment extends MyFragment {
         dateEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MyDatePicker.getInstance(getContext())
+                MyDatePicker.getInstance(getContext(), R.string.select_date)
                         .setTitleResId(R.string.select_date)
                         .selectDateFor(dateEditText);
             }

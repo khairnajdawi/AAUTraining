@@ -18,8 +18,8 @@ public class MyDatePicker {
     private int titleResId;
     private String dateFormat = "yyyy/MM/dd";
 
-    public static MyDatePicker getInstance(Context context){
-        return new MyDatePicker(context);
+    public static MyDatePicker getInstance(Context context, int titleResId) {
+        return new MyDatePicker(context, titleResId);
     }
 
     public MyDatePicker(Context context) {

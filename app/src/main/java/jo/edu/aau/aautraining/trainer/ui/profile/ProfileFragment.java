@@ -112,7 +112,7 @@ public class ProfileFragment extends MyFragment {
                                 mViewModel.setEmail(profileJsonObject.getString("email"));
                                 mViewModel.setMobile(profileJsonObject.getString("mobile"));
                                 mViewModel.setJobTitle(profileJsonObject.getString("job_title"));
-                                mViewModel.setImageLink(AppConstants.API_BASE_URL+ profileJsonObject.getString("img_link"));
+                                mViewModel.setImageLink(AppConstants.APP_BASE_URL + profileJsonObject.getString("img_link"));
                             } else {
                                 activity.showSnackbar(R.string.error);
                             }

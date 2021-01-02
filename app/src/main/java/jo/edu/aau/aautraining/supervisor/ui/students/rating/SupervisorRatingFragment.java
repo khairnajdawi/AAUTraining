@@ -69,8 +69,8 @@ public class SupervisorRatingFragment extends MyFragment {
     private void getRating(int trainingId) {
         showProgressView();
         StringRequest stringRequest = new StringRequest(
-                Request.Method.POST,
-                AppConstants.SUPERVISOR_GET_RATING,
+                Request.Method.GET,
+                AppConstants.SUPERVISOR_GET_RATING + "?training_id=" + trainingId,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
@@ -101,13 +101,6 @@ public class SupervisorRatingFragment extends MyFragment {
             }
         }
         ) {
-            @Override
-            protected Map<String, String> getParams() {
-                HashMap<String, String> params = new HashMap<>();
-                params.put("training_id", String.valueOf(trainingId));
-                return params;
-            }
-
             @Override
             public Map<String, String> getHeaders() {
                 HashMap<String, String> headers = new HashMap<>();

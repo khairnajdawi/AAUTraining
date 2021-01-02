@@ -5,10 +5,11 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     android:orientation="vertical"
+    android:padding="10dp"
     tools:context=".shared.ui.logout.LogoutFragment">
 
     <TextView
-        style="@style/TextAppearance.AppCompat.Display3"
+        style="@style/TextAppearance.AppCompat.Display2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -28,7 +29,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="@color/btn_red_background_tint"
             android:text="@string/logout" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -36,7 +36,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="@color/btn_green_background_tint"
             android:text="@string/cancel" />
     </LinearLayout>
 

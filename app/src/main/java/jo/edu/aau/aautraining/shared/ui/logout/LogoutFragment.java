@@ -8,14 +8,26 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import jo.edu.aau.aautraining.LoginActivity;
 import jo.edu.aau.aautraining.R;
+import jo.edu.aau.aautraining.shared.AppConstants;
+import jo.edu.aau.aautraining.shared.MyFragment;
 import jo.edu.aau.aautraining.shared.MySharedPreference;
 
-public class LogoutFragment extends Fragment {
+public class LogoutFragment extends MyFragment {
 
 
     public LogoutFragment() {
@@ -55,13 +67,49 @@ public class LogoutFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        MySharedPreference mySharedPreference = new MySharedPreference(getContext());
-                        mySharedPreference.setToken("");
-                        Intent i = new Intent(getContext(), LoginActivity.class);
-                        startActivity(i);
-                        getActivity().finish();
+                        tryLogout();
                     }
                 }
         );
+    }
+
+    private void tryLogout() {
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                AppConstants.API_LOGOUT_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        System.out.println(response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            if (jsonObject.getBoolean("valid") && jsonObject.getBoolean("logout")) {
+                                MySharedPreference mySharedPreference = new MySharedPreference(getContext());
+                                mySharedPreference.setToken("");
+                                Intent i = new Intent(getContext(), LoginActivity.class);
+                                startActivity(i);
+                                getActivity().finish();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            showSnackbar();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                showSnackbar();
+            }
+        }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
+                MySharedPreference mySharedPreference = new MySharedPreference(getContext());
+                headers.put("Authorization", "Bearer " + mySharedPreference.getToken());
+                return headers;
+            }
+        };
+        addVolleyStringRequest(stringRequest);
     }
 }

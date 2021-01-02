@@ -125,6 +125,11 @@ public class TraineeProfileFragment extends MyFragment implements View.OnClickLi
 
                                 int trainingStatus = profileJsonObject.getInt("training_status");
                                 traineeProfileViewModel.setTrainingStatus(trainingStatus);
+                                String requiredHours = profileJsonObject.getString("required_hours");
+                                traineeProfileViewModel.setRequiredHours(requiredHours);
+                                String passedHours = profileJsonObject.getString("passed_hours");
+                                String remainHours = profileJsonObject.getString("remain_hours");
+                                String trainingHoursText = String.format(Locale.US, "%sH passed / %sH remain", passedHours, remainHours);
                                 switch (trainingStatus) {
                                     case 0:
                                         stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.ONE);
@@ -136,13 +141,10 @@ public class TraineeProfileFragment extends MyFragment implements View.OnClickLi
                                         stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.THREE);
                                         //hide finish training button
                                         getView().findViewById(R.id.trainee_profile_finish_btn).setVisibility(View.GONE);
+                                        trainingHoursText = String.format(Locale.US, "%sH passed", passedHours);
                                         break;
                                 }
-                                String requiredHours = profileJsonObject.getString("required_hours");
-                                traineeProfileViewModel.setRequiredHours(requiredHours);
-                                String passedHours = profileJsonObject.getString("passed_hours");
-                                String remainHours = profileJsonObject.getString("remain_hours");
-                                String trainingHoursText = String.format(Locale.US, "%sH passed / %sH remain", passedHours, remainHours);
+
 
                                 double passedValue = Integer.parseInt(passedHours.split(":")[0]) * 60 + Integer.parseInt(passedHours.split(":")[1]);
                                 double requiredValue = Integer.parseInt(requiredHours.split(":")[0]) * 60 + Integer.parseInt(requiredHours.split(":")[1]);
@@ -191,9 +193,12 @@ public class TraineeProfileFragment extends MyFragment implements View.OnClickLi
         TrainersMainActivity activity = (TrainersMainActivity) getActivity();
         switch (view.getId()) {
             case R.id.trainee_profile_send_msg_btn:
+                TrainersMainActivity mainActivity = (TrainersMainActivity) getActivity();
                 Bundle bundle = new Bundle();
-                bundle.putInt("contact_type", 1);
-                bundle.putInt("contact_id", traineeId);
+                bundle.putString("from_role", "Trainer");
+                bundle.putString("to_role", "Student");
+                bundle.putInt("from_id", mainActivity.getTrainerId());
+                bundle.putInt("to_id", traineeId);
                 bundle.putString("contact_name", traineeProfileViewModel.getTraineeName().getValue());
                 Navigation.createNavigateOnClickListener(R.id.action_trainer_nav_trainee_profile_to_trainer_nav_trainee_chat, bundle).onClick(view);
                 break;

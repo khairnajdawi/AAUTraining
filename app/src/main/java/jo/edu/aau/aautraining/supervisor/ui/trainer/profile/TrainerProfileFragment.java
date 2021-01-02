@@ -35,6 +35,7 @@ import jo.edu.aau.aautraining.shared.AppConstants;
 import jo.edu.aau.aautraining.shared.MyAppCompatActivity;
 import jo.edu.aau.aautraining.shared.MyFragment;
 import jo.edu.aau.aautraining.shared.MySharedPreference;
+import jo.edu.aau.aautraining.supervisor.SupervisorMainActivity;
 
 public class TrainerProfileFragment extends MyFragment {
 
@@ -153,9 +154,14 @@ public class TrainerProfileFragment extends MyFragment {
                                 mViewModel.setEmail(profileJsonObject.getString("email"));
                                 mViewModel.setMobile(profileJsonObject.getString("mobile"));
                                 mViewModel.setJobTitle(profileJsonObject.getString("job_title"));
-                                mViewModel.setImageLink(AppConstants.API_BASE_URL + profileJsonObject.getString("img_link"));
+                                mViewModel.setImageLink(AppConstants.APP_BASE_URL + profileJsonObject.getString("img_link"));
+                                SupervisorMainActivity mainActivity = (SupervisorMainActivity) getActivity();
                                 Bundle bundle = new Bundle();
                                 bundle.putString("contact_name", profileJsonObject.getString("name"));
+                                bundle.putString("from_role", "Supervisor");
+                                bundle.putString("to_role", "Trainer");
+                                bundle.putInt("from_id", mainActivity.getSupervisorId());
+                                bundle.putInt("to_id", trainerId);
                                 getView().findViewById(R.id.student_trainer_contactbtn).setOnClickListener(
                                         Navigation.createNavigateOnClickListener(R.id.action_supervisor_nav_contact_trainer_to_supervisor_nav_chat, bundle)
                                 );

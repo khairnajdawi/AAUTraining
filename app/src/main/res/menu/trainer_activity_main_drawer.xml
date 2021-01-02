@@ -17,6 +17,10 @@
             android:icon="@drawable/ic_student_logo"
             android:title="@string/trainee_list" />
         <item
+            android:id="@+id/trainer_nav_chat_list"
+            android:icon="@drawable/ic_chat_logo"
+            android:title="@string/chat_list" />
+        <item
             android:id="@+id/trainer_nav_logout"
             android:icon="@drawable/ic_chat_logo"
             android:title="@string/logout" />

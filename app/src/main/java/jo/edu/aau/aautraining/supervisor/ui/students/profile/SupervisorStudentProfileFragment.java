@@ -29,6 +29,7 @@ import jo.edu.aau.aautraining.R;
 import jo.edu.aau.aautraining.shared.AppConstants;
 import jo.edu.aau.aautraining.shared.MyFragment;
 import jo.edu.aau.aautraining.shared.MySharedPreference;
+import jo.edu.aau.aautraining.supervisor.SupervisorMainActivity;
 
 public class SupervisorStudentProfileFragment extends MyFragment implements View.OnClickListener {
 
@@ -81,12 +82,20 @@ public class SupervisorStudentProfileFragment extends MyFragment implements View
 
         final TextView hoursStatusTextView = root.findViewById(R.id.student_profile_status_hours_tv);
         profileViewModel.getRemainHours().observe(getViewLifecycleOwner(), remainHoursString -> {
-            String s = String.format(
-                    Locale.US,
-                    "%sH passed / %sH To Complete",
-                    profileViewModel.getPassHours().getValue(),
-                    remainHoursString);
-            hoursStatusTextView.setText(s);
+            if (profileViewModel.getTrainingStatus().getValue() <= 1) {
+                String s = String.format(
+                        Locale.US,
+                        "%sH passed / %sH To Complete",
+                        profileViewModel.getPassHours().getValue(),
+                        profileViewModel.getRemainHours().getValue());
+                hoursStatusTextView.setText(s);
+            } else {
+                String s = String.format(
+                        Locale.US,
+                        "%sH passed ",
+                        profileViewModel.getPassHours().getValue());
+                hoursStatusTextView.setText(s);
+            }
         });
 
 
@@ -241,8 +250,13 @@ public class SupervisorStudentProfileFragment extends MyFragment implements View
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.student_profile_send_msg_btn:
+                SupervisorMainActivity mainActivity = (SupervisorMainActivity) getActivity();
                 Bundle bundle = new Bundle();
                 bundle.putString("contact_name", profileViewModel.getStudentName().getValue());
+                bundle.putString("from_role", "Supervisor");
+                bundle.putString("to_role", "Student");
+                bundle.putInt("from_id", mainActivity.getSupervisorId());
+                bundle.putInt("to_id", studentId);
                 Navigation.createNavigateOnClickListener(R.id.action_supervisor_nav_student_profile_to_supervisor_nav_chat, bundle).onClick(view);
                 break;
             case R.id.student_profile_schedule_btn:

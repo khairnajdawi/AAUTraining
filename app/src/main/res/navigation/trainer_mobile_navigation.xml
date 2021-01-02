@@ -13,10 +13,9 @@
     </fragment>
     <fragment
         android:id="@+id/trainer_nav_logout"
-        android:name="jo.edu.aau.aautraining.trainer.ui.logout.TrainerLogoutFragment"
-        android:label="@string/Profile"
-        tools:layout="@layout/trainer_logout_fragment" >
-    </fragment>
+        android:name="jo.edu.aau.aautraining.shared.ui.logout.LogoutFragment"
+        android:label="@string/logout"
+        tools:layout="@layout/shared_logout_fragment"></fragment>
 
     <fragment
         android:id="@+id/trainer_nav_schedule"
@@ -67,16 +66,45 @@
     </fragment>
 
     <fragment
+        android:id="@+id/trainer_nav_chat_list"
+        android:name="jo.edu.aau.aautraining.shared.ui.chat.ChatListFragment"
+        android:label="@string/chat_list"
+        tools:layout="@layout/fragment_chat_list">
+        <argument
+            android:name="from_role"
+            app:argType="string" />
+        <argument
+            android:name="from_id"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_trainer_nav_chat_list_to_trainer_nav_chat"
+            app:destination="@id/trainer_nav_chat" />
+    </fragment>
+    <fragment
         android:id="@+id/trainer_nav_chat"
-        android:name="jo.edu.aau.aautraining.trainer.ui.chat.TrainerChatFragment"
-        android:label="@string/trainee_profile"
-        tools:layout="@layout/trainer_chat_fragment" >
-        <argument android:name="contact_id"
-            app:argType="integer"/>
-        <argument android:name="contact_name"
-            app:argType="string"/>
-        <argument android:name="contact_type"
-            app:argType="integer"/>
+        android:name="jo.edu.aau.aautraining.shared.ui.chat.ChatFragment"
+        android:label="@string/chat"
+        tools:layout="@layout/shared_chat_fragment">
+        <argument
+            android:name="contact_name"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="db_guid"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="from_role"
+            app:argType="string" />
+        <argument
+            android:name="from_id"
+            app:argType="integer" />
+        <argument
+            android:name="to_role"
+            app:argType="string" />
+        <argument
+            android:name="to_id"
+            app:argType="integer" />
     </fragment>
 
     <fragment

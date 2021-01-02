@@ -43,6 +43,7 @@ import jo.edu.aau.aautraining.student.StudentMainActivity;
 public class ContactTrainerFragment extends MyFragment {
 
     private ContactTrainerViewModel mViewModel;
+    private int studentId;
 
     public static ContactTrainerFragment newInstance() {
         return new ContactTrainerFragment();
@@ -83,7 +84,7 @@ public class ContactTrainerFragment extends MyFragment {
             @Override
             public void onChanged(String s) {
                 nameTextView.setText(s);
-                ContactTrainerFragmentDirections.actionStudentNavContactTrainerToStudentNavChat().setContactName(s);
+                //ContactTrainerFragmentDirections.actionStudentNavContactTrainerToStudentNavChat().setContactName(s);
             }
         });
 
@@ -135,6 +136,7 @@ public class ContactTrainerFragment extends MyFragment {
         );
         if(getArguments()!=null){
             int trainerId=ContactTrainerFragmentArgs.fromBundle(getArguments()).getTrainerId();
+            studentId = ContactTrainerFragmentArgs.fromBundle(getArguments()).getStudentId();
             getTrainerInfo(trainerId);
         }
     }
@@ -160,11 +162,15 @@ public class ContactTrainerFragment extends MyFragment {
                                 mViewModel.setEmail(profileJsonObject.getString("email"));
                                 mViewModel.setMobile(profileJsonObject.getString("mobile"));
                                 mViewModel.setJobTitle(profileJsonObject.getString("job_title"));
-                                mViewModel.setImageLink(AppConstants.API_BASE_URL+ profileJsonObject.getString("img_link"));
-                                Bundle bundle=new Bundle();
-                                bundle.putString("contact_name",profileJsonObject.getString("name"));
+                                mViewModel.setImageLink(AppConstants.APP_BASE_URL + profileJsonObject.getString("img_link"));
+                                Bundle bundle = new Bundle();
+                                bundle.putString("contact_name", profileJsonObject.getString("name"));
+                                bundle.putString("from_role", "Student");
+                                bundle.putInt("from_id", studentId);
+                                bundle.putString("to_role", "Trainer");
+                                bundle.putInt("to_id", trainerId);
                                 getView().findViewById(R.id.student_trainer_contactbtn).setOnClickListener(
-                                        Navigation.createNavigateOnClickListener(R.id.action_student_nav_contact_trainer_to_student_nav_chat,bundle)
+                                        Navigation.createNavigateOnClickListener(R.id.action_student_nav_contact_trainer_to_student_nav_chat, bundle)
                                 );
                             } else {
                                 activity.showSnackbar(R.string.error);

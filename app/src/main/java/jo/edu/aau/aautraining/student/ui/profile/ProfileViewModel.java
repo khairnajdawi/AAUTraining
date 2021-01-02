@@ -17,6 +17,7 @@ public class ProfileViewModel extends AndroidViewModel {
             startDate,
             finishDate;
     private MutableLiveData<String> requiredHours,passHours,remainHours;
+    private MutableLiveData<Integer> trainingStatus;
 
     public ProfileViewModel(Application application) {
         super(application);
@@ -31,7 +32,17 @@ public class ProfileViewModel extends AndroidViewModel {
         requiredHours = new MutableLiveData<>();
         passHours = new MutableLiveData<>();
         remainHours = new MutableLiveData<>();
+        trainingStatus = new MutableLiveData<>();
     }
+
+    public MutableLiveData<Integer> getTrainingStatus() {
+        return trainingStatus;
+    }
+
+    public void setTrainingStatus(Integer trainingStatus) {
+        this.trainingStatus.setValue(trainingStatus);
+    }
+
     public MutableLiveData<String> getCompanyName() {
         return companyName;
     }

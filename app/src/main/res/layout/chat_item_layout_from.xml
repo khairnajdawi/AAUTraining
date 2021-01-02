@@ -6,7 +6,7 @@
     <data>
         <variable
             name="message"
-            type="jo.edu.aau.aautraining.student.ui.chat.StudentChatViewModel" />
+            type="jo.edu.aau.aautraining.shared.ui.chat.ChatViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

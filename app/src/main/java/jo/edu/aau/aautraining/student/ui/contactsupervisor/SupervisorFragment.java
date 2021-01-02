@@ -42,11 +42,11 @@ import jo.edu.aau.aautraining.shared.AppConstants;
 import jo.edu.aau.aautraining.shared.MyAppCompatActivity;
 import jo.edu.aau.aautraining.shared.MyFragment;
 import jo.edu.aau.aautraining.shared.MySharedPreference;
-import jo.edu.aau.aautraining.student.ui.chat.StudentChatFragmentArgs;
 
 public class SupervisorFragment extends MyFragment {
 
     private SupervisorViewModel supervisorViewModel;
+    private int studentId;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -58,7 +58,7 @@ public class SupervisorFragment extends MyFragment {
         supervisorViewModel.getName().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                SupervisorFragmentDirections.actionStudentNavContactSupervisorToStudentNavChat().setContactName(s);
+                //SupervisorFragmentDirections.actionStudentNavContactSupervisorToStudentNavChat().setContactName(s);
                 nameTextView.setText(s);
             }
         });
@@ -111,21 +111,6 @@ public class SupervisorFragment extends MyFragment {
                 emailTextView.setText(s);
             }
         });
-        RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
-        ImageLoader mImageLoader = new ImageLoader(mRequestQueue, new ImageLoader.ImageCache() {
-
-            private final LruCache<String, Bitmap> mCache = new LruCache<String, Bitmap>(10);
-
-            public Bitmap getBitmap(String url) {
-                return mCache.get(url);
-            }
-
-            @Override
-            public void putBitmap(String url, Bitmap bitmap) {
-                mCache.put(url, bitmap);
-            }
-
-        });
         final NetworkImageView imageView = root.findViewById(R.id.student_supervisor_imageView);
         supervisorViewModel.getImageLink().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -143,6 +128,7 @@ public class SupervisorFragment extends MyFragment {
 
         if(getArguments()!=null){
             int supervisorId = SupervisorFragmentArgs.fromBundle(getArguments()).getSupervisorId();
+            studentId = SupervisorFragmentArgs.fromBundle(getArguments()).getStudentId();
             getSupervisorInfo(supervisorId);
         }
     }
@@ -169,11 +155,15 @@ public class SupervisorFragment extends MyFragment {
                                 supervisorViewModel.setEmail(profileJsonObject.getString("email"));
                                 supervisorViewModel.setMobile(profileJsonObject.getString("mobile"));
                                 supervisorViewModel.setJobTitle(profileJsonObject.getString("job_title"));
-                                supervisorViewModel.setImageLink(AppConstants.API_BASE_URL+ profileJsonObject.getString("img_link"));
-                                Bundle bundle=new Bundle();
-                                bundle.putString("contact_name",profileJsonObject.getString("name"));
+                                supervisorViewModel.setImageLink(AppConstants.APP_BASE_URL + profileJsonObject.getString("img_link"));
+                                Bundle bundle = new Bundle();
+                                bundle.putString("contact_name", profileJsonObject.getString("name"));
+                                bundle.putString("from_role", "Student");
+                                bundle.putInt("from_id", studentId);
+                                bundle.putString("to_role", "Supervisor");
+                                bundle.putInt("to_id", supervisorId);
                                 getView().findViewById(R.id.student_supervisor_contactbtn).setOnClickListener(
-                                        Navigation.createNavigateOnClickListener(R.id.action_student_nav_contact_supervisor_to_student_nav_chat,bundle)
+                                        Navigation.createNavigateOnClickListener(R.id.action_student_nav_contact_supervisor_to_student_nav_chat, bundle)
                                 );
                             } else {
                                 activity.showSnackbar(R.string.error);

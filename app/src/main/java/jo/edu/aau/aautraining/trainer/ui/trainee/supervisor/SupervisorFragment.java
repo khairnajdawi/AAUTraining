@@ -35,6 +35,7 @@ import jo.edu.aau.aautraining.shared.AppConstants;
 import jo.edu.aau.aautraining.shared.MyAppCompatActivity;
 import jo.edu.aau.aautraining.shared.MyFragment;
 import jo.edu.aau.aautraining.shared.MySharedPreference;
+import jo.edu.aau.aautraining.trainer.TrainersMainActivity;
 
 public class SupervisorFragment extends MyFragment {
 
@@ -102,21 +103,6 @@ public class SupervisorFragment extends MyFragment {
                 emailTextView.setText(s);
             }
         });
-        RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
-        ImageLoader mImageLoader = new ImageLoader(mRequestQueue, new ImageLoader.ImageCache() {
-
-            private final LruCache<String, Bitmap> mCache = new LruCache<String, Bitmap>(10);
-
-            public Bitmap getBitmap(String url) {
-                return mCache.get(url);
-            }
-
-            @Override
-            public void putBitmap(String url, Bitmap bitmap) {
-                mCache.put(url, bitmap);
-            }
-
-        });
         final NetworkImageView imageView = root.findViewById(R.id.trainer_supervisor_imageView);
         supervisorViewModel.getImageLink().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -160,16 +146,18 @@ public class SupervisorFragment extends MyFragment {
                                 supervisorViewModel.setEmail(profileJsonObject.getString("email"));
                                 supervisorViewModel.setMobile(profileJsonObject.getString("mobile"));
                                 supervisorViewModel.setJobTitle(profileJsonObject.getString("job_title"));
-                                supervisorViewModel.setImageLink(AppConstants.API_BASE_URL + profileJsonObject.getString("img_link"));
+                                supervisorViewModel.setImageLink(AppConstants.APP_BASE_URL + profileJsonObject.getString("img_link"));
+                                TrainersMainActivity mainActivity = (TrainersMainActivity) getActivity();
                                 Bundle bundle = new Bundle();
-                                bundle.putInt("contact_id", supervisorId);
-                                bundle.putInt("contact_type", 4);
+                                bundle.putString("from_role", "Trainer");
+                                bundle.putString("to_role", "Supervisor");
+                                bundle.putInt("from_id", mainActivity.getTrainerId());
+                                bundle.putInt("to_id", supervisorId);
                                 bundle.putString("contact_name", profileJsonObject.getString("name"));
                                 getView().findViewById(R.id.trainer_supervisor_contactbtn).setOnClickListener(
                                         Navigation.createNavigateOnClickListener(R.id.action_trainer_nav_supervisor_to_trainer_nav_chat, bundle)
                                 );
 
-                                SupervisorFragmentDirections.actionTrainerNavSupervisorToTrainerNavChat(supervisorId, profileJsonObject.getString("name"), 4);
                             } else {
                                 activity.showSnackbar(R.string.error);
                             }

@@ -67,6 +67,10 @@ public class StudentMainActivity extends MyAppCompatActivity {
 
             NavDestination contactSupervisorDestination = navController.getGraph().findNode(R.id.student_nav_contact_supervisor);
             NavArgument.Builder builder2 = new NavArgument.Builder();
+            contactSupervisorDestination.addArgument("studentId", builder2
+                    .setType(NavType.IntType)
+                    .setDefaultValue(studentId)
+                    .build());
             contactSupervisorDestination.addArgument("supervisorId", builder2
                     .setType(NavType.IntType)
                     .setDefaultValue(supervisorId)
@@ -74,14 +78,29 @@ public class StudentMainActivity extends MyAppCompatActivity {
 
             NavDestination contactTrainerDestination = navController.getGraph().findNode(R.id.student_nav_contact_trainer);
             NavArgument.Builder builder3 = new NavArgument.Builder();
+            contactTrainerDestination.addArgument("studentId", builder3
+                    .setType(NavType.IntType)
+                    .setDefaultValue(studentId)
+                    .build());
             contactTrainerDestination.addArgument("trainerId", builder3
                     .setType(NavType.IntType)
                     .setDefaultValue(trainerId)
                     .build());
 
-            NavDestination scheduleNavDestination = navController.getGraph().findNode(R.id.student_nav_schedule);
+            NavDestination chatListDestination = navController.getGraph().findNode(R.id.student_nav_chat_list);
             NavArgument.Builder builder4 = new NavArgument.Builder();
-            scheduleNavDestination.addArgument("trainingId", builder4
+            chatListDestination.addArgument("from_id", builder4
+                    .setType(NavType.IntType)
+                    .setDefaultValue(studentId)
+                    .build());
+            chatListDestination.addArgument("from_role", builder4
+                    .setType(NavType.StringType)
+                    .setDefaultValue("Student")
+                    .build());
+
+            NavDestination scheduleNavDestination = navController.getGraph().findNode(R.id.student_nav_schedule);
+            NavArgument.Builder builder5 = new NavArgument.Builder();
+            scheduleNavDestination.addArgument("trainingId", builder5
                     .setType(NavType.IntType)
                     .setDefaultValue(trainingId)
                     .build());

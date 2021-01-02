@@ -1,5 +1,6 @@
 package jo.edu.aau.aautraining.student.ui.profile;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -128,12 +129,8 @@ public class ProfileFragment extends MyFragment {
         profileViewModel.getRemainHours().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String remainHoursString ) {
-                String s = String.format(
-                        Locale.US,
-                        "%sH passed / %sH To Complete",
-                        profileViewModel.getPassHours().getValue(),
-                        remainHoursString);
-                hoursStatusTextView.setText(s);
+                //if(profileViewModel.get)
+
             }
         });
 
@@ -147,6 +144,49 @@ public class ProfileFragment extends MyFragment {
         stateProgressBar.setStateDescriptionData(descriptionData);
         stateProgressBar.setStateDescriptionSize(12);
         stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
+
+        profileViewModel.getTrainingStatus().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer trainingStatus) {
+                switch (trainingStatus) {
+                    case 0:
+                        stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.ONE);
+                        break;
+                    case 1:
+                        stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
+                        break;
+                    case 2:
+                        stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.THREE);
+                        break;
+                    case 3:
+                        stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.FOUR);
+                        break;
+                    case 4:
+                        stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.FIVE);
+                        break;
+                    case 5:
+                        String[] descriptionData = {"Start", "Training", "Trainer Report", "Complete", "Fail"};
+                        stateProgressBar.setStateDescriptionData(descriptionData);
+                        stateProgressBar.setForegroundColor(Color.RED);
+                        stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.FIVE);
+                        break;
+                }
+                if (trainingStatus <= 1) {
+                    String s = String.format(
+                            Locale.US,
+                            "%sH passed / %sH To Complete",
+                            profileViewModel.getPassHours().getValue(),
+                            profileViewModel.getRemainHours().getValue());
+                    hoursStatusTextView.setText(s);
+                } else {
+                    String s = String.format(
+                            Locale.US,
+                            "%sH passed ",
+                            profileViewModel.getPassHours().getValue());
+                    hoursStatusTextView.setText(s);
+                }
+            }
+        });
         return root;
     }
 
@@ -164,8 +204,6 @@ public class ProfileFragment extends MyFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
     }
 
     private void getStudentInfo() {
@@ -191,32 +229,23 @@ public class ProfileFragment extends MyFragment {
                                 profileViewModel.setStudentUniNo(profileJsonObject.getString("uni_no"));
                                 profileViewModel.setCompanyName(profileJsonObject.getString("company_name"));
                                 profileViewModel.setTrainingField(profileJsonObject.getString("training_field"));
-                                int trainingStatus = profileJsonObject.getInt("training_status");
-                                switch (trainingStatus){
-                                    case 0:
-                                        stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.ONE);
-                                        break;
-                                    case 1:
-                                        stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
-                                        break;
-                                    default:
-                                        stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.THREE);
-                                        break;
-                                }
+
                                 String passedHours = profileJsonObject.getString("passed_hours");
                                 profileViewModel.setPassHours(passedHours);
                                 String requiredHours = profileJsonObject.getString("required_hours");
                                 profileViewModel.setRequiredHours(requiredHours);
                                 String remainHours = profileJsonObject.getString("remain_hours");
                                 profileViewModel.setRemainHours(remainHours);
-                                double passedValue = Integer.parseInt(passedHours.split(":")[0])*60 + Integer.parseInt(passedHours.split(":")[1]);
-                                double requiredValue = Integer.parseInt(requiredHours.split(":")[0])*60 + Integer.parseInt(requiredHours.split(":")[1]);
-                                int passedPercent = (int) ((passedValue / requiredValue)*100);
-                                if(passedPercent>100) passedPercent=100;
+                                double passedValue = Integer.parseInt(passedHours.split(":")[0]) * 60 + Integer.parseInt(passedHours.split(":")[1]);
+                                double requiredValue = Integer.parseInt(requiredHours.split(":")[0]) * 60 + Integer.parseInt(requiredHours.split(":")[1]);
+                                int passedPercent = (int) ((passedValue / requiredValue) * 100);
+                                if (passedPercent > 100) passedPercent = 100;
                                 pictureProgressBar.setProgress(passedPercent);
                                 profileViewModel.setStartDate(profileJsonObject.getString("start_date"));
                                 profileViewModel.setFinishDate(profileJsonObject.getString("finish_date"));
 
+                                int trainingStatus = profileJsonObject.getInt("training_status");
+                                profileViewModel.setTrainingStatus(trainingStatus);
                             } else {
                                 showSnackbar(R.string.error);
                             }

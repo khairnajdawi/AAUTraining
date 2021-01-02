@@ -6,7 +6,10 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavArgument;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
+import androidx.navigation.NavType;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -65,6 +68,18 @@ public class SupervisorMainActivity extends MyAppCompatActivity {
                 .build();
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
+
+        NavDestination chatListDestination = navController.getGraph().findNode(R.id.supervisor_nav_chat_list);
+        NavArgument.Builder builder4 = new NavArgument.Builder();
+        chatListDestination.addArgument("from_id", builder4
+                .setType(NavType.IntType)
+                .setDefaultValue(supervisorId)
+                .build());
+        chatListDestination.addArgument("from_role", builder4
+                .setType(NavType.StringType)
+                .setDefaultValue("Supervisor")
+                .build());
+
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
@@ -74,7 +89,7 @@ public class SupervisorMainActivity extends MyAppCompatActivity {
 
         NetworkImageView headerImageView = navigationView.getHeaderView(0).findViewById(R.id.supervisor_navheader_imageview);
         if (!(imageLink == null) && !imageLink.isEmpty()) {
-            headerImageView.setImageUrl(AppConstants.API_BASE_URL + imageLink, getImageLoader());
+            headerImageView.setImageUrl(AppConstants.APP_BASE_URL + imageLink, getImageLoader());
             headerImageView.setErrorImageResId(R.drawable.training);
         }
     }

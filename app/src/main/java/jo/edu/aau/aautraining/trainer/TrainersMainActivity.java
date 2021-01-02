@@ -7,7 +7,10 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavArgument;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
+import androidx.navigation.NavType;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -72,7 +75,7 @@ public class TrainersMainActivity extends MyAppCompatActivity {
         navigationView = findViewById(R.id.nav_view);
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.trainer_nav_profile, R.id.trainer_nav_schedule, R.id.trainer_nav_trainee_list, R.id.trainer_nav_logout)
+                R.id.trainer_nav_profile, R.id.trainer_nav_schedule, R.id.trainer_nav_trainee_list, R.id.trainer_nav_chat_list, R.id.trainer_nav_logout)
                 .setDrawerLayout(drawer)
                 .build();
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -80,7 +83,17 @@ public class TrainersMainActivity extends MyAppCompatActivity {
 
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
+        trainerId = getIntent().getExtras().getInt("trainer_id");
+        NavDestination chatListDestination = navController.getGraph().findNode(R.id.trainer_nav_chat_list);
+        NavArgument.Builder builder4 = new NavArgument.Builder();
+        chatListDestination.addArgument("from_id", builder4
+                .setType(NavType.IntType)
+                .setDefaultValue(trainerId)
+                .build());
+        chatListDestination.addArgument("from_role", builder4
+                .setType(NavType.StringType)
+                .setDefaultValue("Trainer")
+                .build());
 
         navHeaderNameTextView = navigationView.getHeaderView(0).findViewById(R.id.trainer_navheader_name);
         String fullName = getIntent().getExtras().getString("full_name");
@@ -89,7 +102,7 @@ public class TrainersMainActivity extends MyAppCompatActivity {
         headerImageView = navigationView.getHeaderView(0).findViewById(R.id.trainer_navheader_imageview);
         String imageLink = getIntent().getExtras().getString("img_link");
         if (!(imageLink == null) && !imageLink.isEmpty()) {
-            headerImageView.setImageUrl(AppConstants.API_BASE_URL + imageLink, getImageLoader());
+            headerImageView.setImageUrl(AppConstants.APP_BASE_URL + imageLink, getImageLoader());
             headerImageView.setErrorImageResId(R.drawable.training);
         }
     }

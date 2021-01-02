@@ -66,7 +66,7 @@ public class TraineeScheduleEditFragment extends MyFragment {
         mViewModel.getTrainingDate().observe(getViewLifecycleOwner(), trainingDateEditText::setText);
         trainingDateEditText.setOnClickListener(view -> {
             if (isEditable)
-                MyDatePicker.getInstance(getContext()).selectDateFor(trainingDateEditText);
+                MyDatePicker.getInstance(getContext(), R.string.select_date).selectDateFor(trainingDateEditText);
         });
 
         trainingPlaceEditText = root.findViewById(R.id.trainee_schedule_edit_place);

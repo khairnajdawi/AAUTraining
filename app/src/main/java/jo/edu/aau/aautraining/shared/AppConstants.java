@@ -1,9 +1,11 @@
 package jo.edu.aau.aautraining.shared;
 
 public class AppConstants {
-    public static final String API_BASE_URL = "https://aautraining.000webhostapp.com/api/";
+    public static final String APP_BASE_URL = "https://aautraining325.000webhostapp.com/";
+    public static final String API_BASE_URL = APP_BASE_URL + "api/";
     //Login
     public static final String API_LOGIN_URL = API_BASE_URL + "login.php";
+    public static final String API_LOGOUT_URL = API_BASE_URL + "logout.php";
     public static final String API_TOKEN_LOGIN_URL = API_BASE_URL + "login_with_token.php";
     public static final String API_GET_STUDENT_INFO = API_BASE_URL + "get_student_info.php";
     public static final String API_GET_SUPERVISOR_INFO = API_BASE_URL + "get_supervisor_info.php";
@@ -27,4 +29,11 @@ public class AppConstants {
     public static final String SUPERVISOR_GET_SCHEDULE_INFO = API_BASE_URL + "supervisor_get_schedule_info.php";
     public static final String SUPERVISOR_FINISH_STUDENT_TRAINING = API_BASE_URL + "supervisor_finish_training.php";
     public static final String SUPERVISOR_GET_RATING = API_BASE_URL + "supervisor_get_rating.php";
+
+    public static final String GET_CHAT_LIST = API_BASE_URL + "get_chat_list.php";
+    public static final String GET_CHAT_GUID = API_BASE_URL + "get_chat_guid.php";
+    public static final String UPDATE_HAS_NEW_MESSAGE = API_BASE_URL + "update_has_new_message.php";
+
+
+    public static final String UPDATE_FIREBASE_TOKEN = API_BASE_URL + "update_firebase_token.php";
 }
