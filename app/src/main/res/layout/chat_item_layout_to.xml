@@ -3,28 +3,33 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable
-            name="message"
-            type="jo.edu.aau.aautraining.shared.ui.chat.ChatViewModel" />
-    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:padding="20dp"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/bg_send_message"
         android:layout_height="wrap_content">
 
         <TextView
             android:layout_height="wrap_content"
-            android:layout_width="250dp"
-            android:padding="16dp"
+            android:layout_width="match_parent"
             android:id="@+id/chat_item_textview"
-            android:background="@drawable/bg_send_message"
-            android:text="@{message.text}"
-            tools:text="This message is from"
+            android:textAlignment="textEnd"
             android:textColor="@android:color/white"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/chat_item_time_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/white"
+            android:textSize="10sp"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/chat_item_textview" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -23,8 +23,7 @@
                 android:background="@color/colorPrimary"
                 android:paddingTop="10dp"
                 android:paddingBottom="50dp"
-                android:scaleType="centerInside"
-                app:srcCompat="@drawable/dr" />
+                android:scaleType="centerInside" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"

@@ -55,12 +55,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/faculty"
                     style="@style/TextAppearance.AppCompat.Caption"/>
+
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/faculty_name"
                     android:id="@+id/student_profile_faculty_name_tv"
-                    style="@style/TextAppearance.AppCompat.Large"/>
+                    style="@style/TextAppearance.AppCompat.Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -73,12 +73,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/major"
                     style="@style/TextAppearance.AppCompat.Caption"/>
+
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/major"
                     android:id="@+id/student_profile_major_tv"
-                    style="@style/TextAppearance.AppCompat.Large"/>
+                    style="@style/TextAppearance.AppCompat.Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"

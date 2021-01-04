@@ -23,9 +23,7 @@
                 android:background="@color/colorPrimary"
                 android:paddingTop="10dp"
                 android:paddingBottom="50dp"
-                android:scaleType="centerInside"
-
-                android:src="@drawable/professor_icon" />
+                android:scaleType="centerInside" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"

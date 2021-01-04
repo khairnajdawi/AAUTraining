@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 public class ChatViewModel extends ViewModel {
     public String text;
+    public String time;
     private MutableLiveData<String> contactName;
 
     public ChatViewModel() {
@@ -18,5 +19,13 @@ public class ChatViewModel extends ViewModel {
 
     public void setContactName(String contactName) {
         this.contactName.setValue(contactName);
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }
