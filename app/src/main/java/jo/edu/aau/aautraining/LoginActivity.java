@@ -61,7 +61,7 @@ public class LoginActivity extends MyAppCompatActivity {
         //check if empty string (no input in edit text)
         if (userName.isEmpty()) {
             // display error on EditText
-            usernameEditText.setError(getResources().getString(R.string.enter_username));
+            passwordEditText.setError(getResources().getString(R.string.enter_username));
             return;
         }
         // read password from edit text

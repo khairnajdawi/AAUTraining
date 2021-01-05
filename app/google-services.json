@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1040786913113",
+    "firebase_url": "https://aau-training-default-rtdb.firebaseio.com",
+    "project_id": "aau-training",
+    "storage_bucket": "aau-training.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1040786913113:android:6000b8a1ac3a28244d7e48",
+        "android_client_info": {
+          "package_name": "jo.edu.aau.aautraining"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1040786913113-5jtgq1a91sdgsk23umk0mspm9cmfbqq4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "jo.edu.aau.aautraining",
+            "certificate_hash": "4b80d7cd497721f6ece725befacbc744df7c69ae"
+          }
+        },
+        {
+          "client_id": "1040786913113-49spngdttl0sq145qfra223b60nvlba1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFExtdLSi5Uw5C-hLxod89euRxs--dFGI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1040786913113-49spngdttl0sq145qfra223b60nvlba1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
