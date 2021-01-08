@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
@@ -19,10 +20,16 @@
         <item
             android:id="@+id/supervisor_nav_chat_list"
             android:icon="@drawable/ic_chat_logo"
+            app:actionViewClass="android.widget.TextView"
             android:title="@string/chat_list" />
         <item
+            android:id="@+id/supervisor_nav_notification_list"
+            android:icon="@drawable/ic_baseline_notification_important_24"
+            android:title="@string/notifications_list"
+            app:actionViewClass="android.widget.TextView" />
+        <item
             android:id="@+id/supervisor_nav_logout"
-            android:icon="@drawable/ic_chat_logo"
+            android:icon="@drawable/ic_exit_to_app_24"
             android:title="@string/logout" />
     </group>
 </menu>

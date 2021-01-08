@@ -15,7 +15,7 @@
         android:id="@+id/trainer_nav_logout"
         android:name="jo.edu.aau.aautraining.shared.ui.logout.LogoutFragment"
         android:label="@string/logout"
-        tools:layout="@layout/shared_logout_fragment"></fragment>
+        tools:layout="@layout/shared_logout_fragment" />
 
     <fragment
         android:id="@+id/trainer_nav_schedule"

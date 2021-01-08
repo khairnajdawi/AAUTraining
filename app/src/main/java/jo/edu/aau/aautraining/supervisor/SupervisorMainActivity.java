@@ -1,10 +1,13 @@
 package jo.edu.aau.aautraining.supervisor;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavArgument;
 import androidx.navigation.NavController;
@@ -36,6 +39,8 @@ import jo.edu.aau.aautraining.shared.MyAppCompatActivity;
 import jo.edu.aau.aautraining.shared.MySharedPreference;
 import jo.edu.aau.aautraining.supervisor.ui.students.StudentModel;
 
+import static androidx.annotation.Dimension.SP;
+
 public class SupervisorMainActivity extends MyAppCompatActivity {
 
     private NavController navController;
@@ -52,7 +57,6 @@ public class SupervisorMainActivity extends MyAppCompatActivity {
         String imageLink = extras.getString("img_link");
         String fullName = extras.getString("full_name");
 
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_supervisor_main);
 
@@ -63,7 +67,7 @@ public class SupervisorMainActivity extends MyAppCompatActivity {
         navigationView = findViewById(R.id.nav_view);
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.supervisor_nav_profile, R.id.supervisor_nav_schedule, R.id.supervisor_nav_student_list, R.id.supervisor_nav_logout)
+                R.id.supervisor_nav_profile)
                 .setDrawerLayout(drawer)
                 .build();
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -98,6 +102,63 @@ public class SupervisorMainActivity extends MyAppCompatActivity {
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         getStudentsListFromAPI();
+        getHasNotifications();
+    }
+
+    public void getHasNotifications() {
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET,
+                AppConstants.GET_HAS_NOTIFICATION + "?to_role=supervisor&to_id=" + supervisorId,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        String result = handleApiResponse(response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(result);
+
+                            TextView menuItem = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().findItem(R.id.supervisor_nav_notification_list));
+                            menuItem.setGravity(Gravity.CENTER_VERTICAL);
+                            menuItem.setTypeface(null, Typeface.BOLD);
+                            menuItem.setTextSize(SP, 20f);
+                            menuItem.setTextColor(getResources().getColor(R.color.colorPrimary));
+                            if (jsonObject.getBoolean("has_notification")) {
+                                menuItem.setText("!");
+                            } else {
+                                menuItem.setText("");
+                            }
+
+                            TextView menuItem2 = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().findItem(R.id.supervisor_nav_chat_list));
+                            menuItem2.setGravity(Gravity.CENTER_VERTICAL);
+                            menuItem2.setTypeface(null, Typeface.BOLD);
+                            menuItem2.setTextSize(SP, 20f);
+                            menuItem2.setTextColor(getResources().getColor(R.color.colorPrimary));
+                            if (jsonObject.getBoolean("has_msg")) {
+                                menuItem2.setText("!");
+                            } else {
+                                menuItem2.setText("");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                showSnackbar();
+            }
+        }
+        ) {
+
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
+                MySharedPreference mySharedPreference = new MySharedPreference(SupervisorMainActivity.this);
+                String token = mySharedPreference.getToken();
+                headers.put("Authorization", "Bearer " + token);
+                return headers;
+            }
+        };
+        addVolleyStringRequest(stringRequest);
     }
 
     @Override

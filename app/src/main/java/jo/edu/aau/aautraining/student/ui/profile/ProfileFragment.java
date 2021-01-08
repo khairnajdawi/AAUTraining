@@ -198,6 +198,7 @@ public class ProfileFragment extends MyFragment {
             studentId = profileFragmentArgs.getStudentId();
             trainingId = profileFragmentArgs.getTrainingId();
             getStudentInfo();
+            ((StudentMainActivity) getActivity()).getHasNotifications();
         }
     }
 

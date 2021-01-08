@@ -55,7 +55,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging'
 
 
-    //volley
+    //volley : used for API connection
     implementation 'com.android.volley:volley:1.1.1'
 
     //a Calendar View

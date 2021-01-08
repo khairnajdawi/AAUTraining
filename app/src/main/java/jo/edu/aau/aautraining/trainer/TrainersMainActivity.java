@@ -1,11 +1,14 @@
 package jo.edu.aau.aautraining.trainer;
 
 
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavArgument;
 import androidx.navigation.NavController;
@@ -36,7 +39,10 @@ import jo.edu.aau.aautraining.R;
 import jo.edu.aau.aautraining.shared.AppConstants;
 import jo.edu.aau.aautraining.shared.MyAppCompatActivity;
 import jo.edu.aau.aautraining.shared.MySharedPreference;
+import jo.edu.aau.aautraining.supervisor.SupervisorMainActivity;
 import jo.edu.aau.aautraining.trainer.ui.trainee.TraineeModel;
+
+import static androidx.annotation.Dimension.SP;
 
 public class TrainersMainActivity extends MyAppCompatActivity {
 
@@ -75,7 +81,7 @@ public class TrainersMainActivity extends MyAppCompatActivity {
         navigationView = findViewById(R.id.nav_view);
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.trainer_nav_profile, R.id.trainer_nav_schedule, R.id.trainer_nav_trainee_list, R.id.trainer_nav_chat_list, R.id.trainer_nav_logout)
+                R.id.trainer_nav_profile)
                 .setDrawerLayout(drawer)
                 .build();
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -111,8 +117,65 @@ public class TrainersMainActivity extends MyAppCompatActivity {
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         getTraineesListVolley();
+        getHasNotifications();
     }
 
+
+    public void getHasNotifications() {
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET,
+                AppConstants.GET_HAS_NOTIFICATION + "?to_role=trainer&to_id=" + trainerId,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        String result = handleApiResponse(response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(result);
+
+                            TextView menuItem = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().findItem(R.id.trainer_nav_notification_list));
+                            menuItem.setGravity(Gravity.CENTER_VERTICAL);
+                            menuItem.setTypeface(null, Typeface.BOLD);
+                            menuItem.setTextSize(SP, 20f);
+                            menuItem.setTextColor(getResources().getColor(R.color.colorPrimary));
+                            if (jsonObject.getBoolean("has_notification")) {
+                                menuItem.setText("!");
+                            } else {
+                                menuItem.setText("");
+                            }
+
+                            TextView menuItem2 = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().findItem(R.id.trainer_nav_chat_list));
+                            menuItem2.setGravity(Gravity.CENTER_VERTICAL);
+                            menuItem2.setTypeface(null, Typeface.BOLD);
+                            menuItem2.setTextSize(SP, 20f);
+                            menuItem2.setTextColor(getResources().getColor(R.color.colorPrimary));
+                            if (jsonObject.getBoolean("has_msg")) {
+                                menuItem2.setText("!");
+                            } else {
+                                menuItem2.setText("");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                showSnackbar();
+            }
+        }
+        ) {
+
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
+                MySharedPreference mySharedPreference = new MySharedPreference(TrainersMainActivity.this);
+                String token = mySharedPreference.getToken();
+                headers.put("Authorization", "Bearer " + token);
+                return headers;
+            }
+        };
+        addVolleyStringRequest(stringRequest);
+    }
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

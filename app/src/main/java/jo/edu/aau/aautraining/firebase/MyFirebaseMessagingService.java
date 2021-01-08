@@ -3,7 +3,9 @@ package jo.edu.aau.aautraining.firebase;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 
@@ -23,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import jo.edu.aau.aautraining.LoginActivity;
 import jo.edu.aau.aautraining.R;
 import jo.edu.aau.aautraining.shared.AppConstants;
 import jo.edu.aau.aautraining.shared.MySharedPreference;
@@ -57,12 +60,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 // or other notification behaviors after this
                 NotificationManager notificationManager = getSystemService(NotificationManager.class);
                 notificationManager.createNotificationChannel(channel);
-            }
 
+            }
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+            mBuilder.setContentIntent(pendingIntent);
             Notification notification = mBuilder.build();
             notification.defaults |= Notification.DEFAULT_VIBRATE;
             notification.defaults |= Notification.DEFAULT_SOUND;
-
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
             Random random = new Random();
             notificationManager.notify(random.nextInt(10000), notification);

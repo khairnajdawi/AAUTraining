@@ -7,72 +7,75 @@
     android:orientation="vertical"
     tools:context=".LoginActivity">
 
-    <LinearLayout android:layout_height="match_parent"
+    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:scaleType="fitCenter"
-        android:padding="20dp"
-        app:layout_constraintBottom_toTopOf="@id/usernameEditText"
-        app:srcCompat="@drawable/logo"
-        android:contentDescription="@string/app_name"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/app_name"
+            android:padding="20dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toTopOf="@id/usernameEditText"
+            app:srcCompat="@drawable/logo" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textColor="@color/colorAccent"
-        style="@style/TextAppearance.AppCompat.Title"
-        android:layout_gravity="center"
-        android:textAlignment="center"/>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/username"
-        android:background="@drawable/edittext_rountd"
-        android:padding="5dp"
-        android:layout_margin="20dp">
-
-        <com.google.android.material.textfield.TextInputEditText
+        <TextView
+            style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/usernameEditText"
-            android:nextFocusDown="@id/passwordEditText"
-            android:nextFocusForward="@id/passwordEditText"
-            android:imeOptions="actionNext"
-            android:inputType="text"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_gravity="center"
+            android:text="@string/app_name"
+            android:textAlignment="center"
+            android:textColor="@color/colorAccent" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/password"
-        android:padding="5dp"
-        android:background="@drawable/edittext_rountd"
-        android:layout_margin="20dp">
-
-        <com.google.android.material.textfield.TextInputEditText
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:imeOptions="actionGo"
-            android:id="@+id/passwordEditText"
-            android:inputType="textPassword"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_margin="20dp"
+            android:background="@drawable/edittext_rountd"
+            android:hint="@string/username"
+            android:padding="5dp">
 
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/login"
-        app:backgroundTint="@color/btn_colored_background_tint"
-        android:layout_margin="20dp"/>
-</LinearLayout>
-    <include layout="@layout/loading_layout"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/usernameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:nextFocusDown="@id/passwordEditText"
+                android:nextFocusForward="@id/passwordEditText" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@drawable/edittext_rountd"
+            android:hint="@string/password"
+            android:padding="5dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/passwordEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionGo"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="@string/login"
+            app:backgroundTint="@color/btn_colored_background_tint" />
+    </LinearLayout>
+
+    <include
         android:id="@+id/progressView"
-        android:visibility="gone"/>
+        layout="@layout/loading_layout"
+        android:visibility="gone" />
 </RelativeLayout>

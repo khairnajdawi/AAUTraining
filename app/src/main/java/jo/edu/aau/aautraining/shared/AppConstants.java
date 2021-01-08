@@ -33,7 +33,9 @@ public class AppConstants {
     public static final String GET_CHAT_LIST = API_BASE_URL + "get_chat_list.php";
     public static final String GET_CHAT_GUID = API_BASE_URL + "get_chat_guid.php";
     public static final String UPDATE_HAS_NEW_MESSAGE = API_BASE_URL + "update_has_new_message.php";
+    public static final String SET_NOTIFICATION_SEEN = API_BASE_URL + "set_notification_seen.php";
 
-
+    public static final String GET_NOTIFICATION_LIST = API_BASE_URL + "get_notifications.php";
+    public static final String GET_HAS_NOTIFICATION = API_BASE_URL + "get_has_notifications.php";
     public static final String UPDATE_FIREBASE_TOKEN = API_BASE_URL + "update_firebase_token.php";
 }

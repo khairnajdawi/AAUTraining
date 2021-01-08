@@ -48,7 +48,7 @@ public class ChatFragment extends MyFragment {
     private ChatViewModel mViewModel;
     private ChatFirebaseDB chatFirebaseDB;
     private ArrayList<MessageModel> messagesList = new ArrayList<>();
-    ;
+    private RecyclerView recyclerView;
     private ChatAdapter chatAdapter;
     private String fromRole;
     private String toRole;
@@ -94,7 +94,7 @@ public class ChatFragment extends MyFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView = view.findViewById(R.id.shared_chat_recyclerview);
+        recyclerView = view.findViewById(R.id.shared_chat_recyclerview);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
         RecyclerViewMargin decoration = new RecyclerViewMargin(20, 1);
         recyclerView.addItemDecoration(decoration);
@@ -189,6 +189,8 @@ public class ChatFragment extends MyFragment {
                 );
                 messagesList.add(messageModel);
                 chatAdapter.notifyDataSetChanged();
+                recyclerView.scrollToPosition(messagesList.size() - 1);
+                setMessagesRead();
             }
 
             @Override
@@ -211,6 +213,11 @@ public class ChatFragment extends MyFragment {
 
             }
         });
+        setMessagesRead();
+    }
+
+    private void setMessagesRead() {
+
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
                 AppConstants.UPDATE_HAS_NEW_MESSAGE,
