@@ -101,6 +101,17 @@ public class TrainersMainActivity extends MyAppCompatActivity {
                 .setDefaultValue("Trainer")
                 .build());
 
+        NavDestination notificationsDestination = navController.getGraph().findNode(R.id.trainer_nav_notification_list);
+        NavArgument.Builder builder6 = new NavArgument.Builder();
+        notificationsDestination.addArgument("to_id", builder6
+                .setType(NavType.IntType)
+                .setDefaultValue(trainerId)
+                .build());
+        notificationsDestination.addArgument("to_role", builder6
+                .setType(NavType.StringType)
+                .setDefaultValue("trainer")
+                .build());
+
         navHeaderNameTextView = navigationView.getHeaderView(0).findViewById(R.id.trainer_navheader_name);
         String fullName = getIntent().getExtras().getString("full_name");
         navHeaderNameTextView.setText(fullName);

@@ -84,6 +84,17 @@ public class SupervisorMainActivity extends MyAppCompatActivity {
                 .setDefaultValue("Supervisor")
                 .build());
 
+        NavDestination notificationsDestination = navController.getGraph().findNode(R.id.supervisor_nav_notification_list);
+        NavArgument.Builder builder6 = new NavArgument.Builder();
+        notificationsDestination.addArgument("to_id", builder6
+                .setType(NavType.IntType)
+                .setDefaultValue(supervisorId)
+                .build());
+        notificationsDestination.addArgument("to_role", builder6
+                .setType(NavType.StringType)
+                .setDefaultValue("supervisor")
+                .build());
+
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 

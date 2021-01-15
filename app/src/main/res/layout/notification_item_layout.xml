@@ -20,6 +20,14 @@
             android:padding="20dp"
             android:textAlignment="center" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/notification_list_item_time"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_below="@id/notification_list_item_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center" />
+
         <View
             android:id="@+id/notification_list_seen_indicator"
             android:layout_width="10dp"

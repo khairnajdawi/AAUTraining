@@ -110,7 +110,8 @@ public class NotificationFragment extends MyFragment {
                                 NotificationItem notificationItem = new NotificationItem(
                                         jsonObject1.getInt("id"),
                                         jsonObject1.getString("notification_text"),
-                                        jsonObject1.getBoolean("is_seen")
+                                        jsonObject1.getBoolean("is_seen"),
+                                        jsonObject1.getString("notification_time")
                                 );
                                 mViewModel.addNotification(notificationItem);
                             }
@@ -140,12 +141,13 @@ public class NotificationFragment extends MyFragment {
     }
 
     private class NotificationViewHolder extends RecyclerView.ViewHolder {
-        private TextView textView;
+        private TextView textView, timeTextView;
         private View seenIndicator;
 
         public NotificationViewHolder(@NonNull View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.notification_list_item_textview);
+            timeTextView = itemView.findViewById(R.id.notification_list_item_time);
             seenIndicator = itemView.findViewById(R.id.notification_list_seen_indicator);
         }
     }
@@ -165,6 +167,7 @@ public class NotificationFragment extends MyFragment {
             NotificationItem notificationItem = mViewModel.getNotificationList().getValue().get(position);
             holder.textView.setText(notificationItem.getNotificationText());
             holder.seenIndicator.setVisibility(notificationItem.isSeen() ? View.GONE : View.VISIBLE);
+            holder.timeTextView.setText(notificationItem.getNotificationTime());
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

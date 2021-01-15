@@ -205,4 +205,16 @@
             android:name="training_id"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/supervisor_nav_notification_list"
+        android:name="jo.edu.aau.aautraining.shared.ui.notifications.NotificationFragment"
+        android:label="@string/notifications_list"
+        tools:layout="@layout/notification_fragment">
+        <argument
+            android:name="to_role"
+            app:argType="string" />
+        <argument
+            android:name="to_id"
+            app:argType="integer" />
+    </fragment>
 </navigation>
