@@ -264,9 +264,8 @@
 
                         <TextView
                             android:id="@+id/student_profile_passed_hours_tv"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
                             android:text="" />
 
                         <com.yanzhikai.pictureprogressbar.PictureProgressBar
@@ -274,7 +273,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:layout_weight="6"
+                            android:layout_weight="1"
                             app:animMode="ANIM_NULL"
                             app:backGroundColor="@color/colorPrimary"
                             app:barColor="@color/colorAccent"
@@ -283,9 +282,8 @@
 
                         <TextView
                             android:id="@+id/student_profile_required_hours_tv"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
                             android:text="" />
                     </LinearLayout>
 

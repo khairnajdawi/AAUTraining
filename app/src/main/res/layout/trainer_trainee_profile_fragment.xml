@@ -200,17 +200,15 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
                     android:orientation="horizontal">
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:id="@+id/trainee_profile_passed_hours_tv"
-                        android:text="0 H"/>
+                        android:text="" />
                     <com.yanzhikai.pictureprogressbar.PictureProgressBar
                         android:layout_width="0dp"
-                        android:layout_weight="6"
+                        android:layout_weight="1"
                         android:layout_height="match_parent"
                         android:id="@+id/trainee_profile_pictureprogoressbar"
                         app:backGroundColor="@color/colorPrimary"
@@ -219,17 +217,18 @@
                         app:animMode="ANIM_NULL"
                         android:layout_gravity="center"
                         app:drawable="@drawable/student_logo_color"/>
+
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:id="@+id/trainee_profile_required_hours_tv"
-                        android:text="260 H"/>
+                        android:text="" />
                 </LinearLayout>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
+                    android:visibility="gone"
                     android:id="@+id/trainee_profile_training_hourse_tv"
                     style="@style/TextAppearance.AppCompat.Medium"/>
 

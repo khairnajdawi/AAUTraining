@@ -206,14 +206,13 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:id="@+id/student_profile_passed_hours_tv"
                         android:text=""/>
                     <com.yanzhikai.pictureprogressbar.PictureProgressBar
                         android:layout_width="0dp"
-                        android:layout_weight="6"
+                        android:layout_weight="1"
                         android:layout_height="match_parent"
                         android:id="@+id/student_profile_pictureprogoressbar"
                         app:backGroundColor="@color/colorPrimary"
@@ -223,8 +222,7 @@
                         android:layout_gravity="center"
                         app:drawable="@drawable/student_logo_color"/>
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:id="@+id/student_profile_required_hours_tv"
                         android:text=""/>

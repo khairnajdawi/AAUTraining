@@ -173,6 +173,7 @@ public class LoginActivity extends MyAppCompatActivity {
                         String token = jsonObject.getString("token");
                         MySharedPreference mySharedPreference = new MySharedPreference(this);
                         mySharedPreference.setToken(token);
+                        mySharedPreference.setUserName(usernameEditText.getText().toString());
                         String userRole = jsonObject.getString("user_role");
                         if (userRole.equalsIgnoreCase("student")) {
                             JSONObject infoJsonObject = jsonObject.getJSONObject("extra_info");
