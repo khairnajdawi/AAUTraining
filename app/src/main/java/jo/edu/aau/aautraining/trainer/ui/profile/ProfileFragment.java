@@ -33,6 +33,7 @@ import jo.edu.aau.aautraining.shared.AppConstants;
 import jo.edu.aau.aautraining.shared.MyAppCompatActivity;
 import jo.edu.aau.aautraining.shared.MyFragment;
 import jo.edu.aau.aautraining.shared.MySharedPreference;
+import jo.edu.aau.aautraining.supervisor.SupervisorMainActivity;
 import jo.edu.aau.aautraining.trainer.TrainersMainActivity;
 
 public class ProfileFragment extends MyFragment {
@@ -88,6 +89,7 @@ public class ProfileFragment extends MyFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getTrainerInfo();
+        ((TrainersMainActivity) getActivity()).getHasNotifications();
     }
 
     private void getTrainerInfo() {

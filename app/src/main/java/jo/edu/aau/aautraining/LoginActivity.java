@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -91,6 +92,11 @@ public class LoginActivity extends MyAppCompatActivity {
                 }, error -> {
             hideProgressView();
             showSnackbar(R.string.error);
+            if (error != null) {
+                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "unkown error", Toast.LENGTH_SHORT).show();
+            }
         }
         ) {
             @Override
@@ -150,6 +156,11 @@ public class LoginActivity extends MyAppCompatActivity {
                 }, error -> {
             hideProgressView();
             showSnackbar(R.string.error);
+            if (error != null) {
+                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "unkown error", Toast.LENGTH_SHORT).show();
+            }
         }
         ) {
 

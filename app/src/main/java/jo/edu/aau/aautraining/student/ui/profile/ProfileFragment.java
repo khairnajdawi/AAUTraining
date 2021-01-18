@@ -142,7 +142,7 @@ public class ProfileFragment extends MyFragment {
         String[] descriptionData = {"Start", "Training", "Trainer Report", "Complete", "Success"};
         stateProgressBar = root.findViewById(R.id.student_profile_stateprogoressbar);
         stateProgressBar.setStateDescriptionData(descriptionData);
-        stateProgressBar.setStateDescriptionSize(12);
+        stateProgressBar.setStateDescriptionSize(10);
         stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
 
         profileViewModel.getTrainingStatus().observe(getViewLifecycleOwner(), new Observer<Integer>() {
@@ -171,20 +171,20 @@ public class ProfileFragment extends MyFragment {
                         stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.FIVE);
                         break;
                 }
-                if (trainingStatus <= 1) {
-                    String s = String.format(
-                            Locale.US,
-                            "%sH passed / %sH To Complete",
-                            profileViewModel.getPassHours().getValue(),
-                            profileViewModel.getRemainHours().getValue());
-                    hoursStatusTextView.setText(s);
-                } else {
-                    String s = String.format(
-                            Locale.US,
-                            "%sH passed ",
-                            profileViewModel.getPassHours().getValue());
-                    hoursStatusTextView.setText(s);
-                }
+//                if (trainingStatus <= 1) {
+//                    String s = String.format(
+//                            Locale.US,
+//                            "%sH passed / %sH To Complete",
+//                            profileViewModel.getPassHours().getValue(),
+//                            profileViewModel.getRemainHours().getValue());
+//                    hoursStatusTextView.setText(s);
+//                } else {
+//                    String s = String.format(
+//                            Locale.US,
+//                            "%sH passed ",
+//                            profileViewModel.getPassHours().getValue());
+//                    hoursStatusTextView.setText(s);
+//                }
             }
         });
         return root;
@@ -262,6 +262,11 @@ public class ProfileFragment extends MyFragment {
             public void onErrorResponse(VolleyError error) {
                 hideProgressView();
                 showSnackbar(R.string.error);
+                if (error.getMessage() != null) {
+                    Toast.makeText(activity, error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(activity, "unkown error", Toast.LENGTH_SHORT).show();
+                }
             }
         }
         ) {

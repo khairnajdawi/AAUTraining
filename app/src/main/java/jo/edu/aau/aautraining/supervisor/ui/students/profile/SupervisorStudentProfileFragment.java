@@ -80,31 +80,30 @@ public class SupervisorStudentProfileFragment extends MyFragment implements View
         final TextView passedHoursTextView = root.findViewById(R.id.student_profile_passed_hours_tv);
         profileViewModel.getPassHours().observe(getViewLifecycleOwner(), passedHoursTextView::setText);
 
-        final TextView hoursStatusTextView = root.findViewById(R.id.student_profile_status_hours_tv);
-        profileViewModel.getRemainHours().observe(getViewLifecycleOwner(), remainHoursString -> {
-            if (profileViewModel.getTrainingStatus().getValue() <= 1) {
-                String s = String.format(
-                        Locale.US,
-                        "%sH passed / %sH To Complete",
-                        profileViewModel.getPassHours().getValue(),
-                        profileViewModel.getRemainHours().getValue());
-                hoursStatusTextView.setText(s);
-            } else {
-                String s = String.format(
-                        Locale.US,
-                        "%sH passed ",
-                        profileViewModel.getPassHours().getValue());
-                hoursStatusTextView.setText(s);
-            }
-        });
+//        final TextView hoursStatusTextView = root.findViewById(R.id.student_profile_status_hours_tv);
+//        profileViewModel.getRemainHours().observe(getViewLifecycleOwner(), remainHoursString -> {
+//            if (profileViewModel.getTrainingStatus().getValue() <= 1) {
+//                String s = String.format(
+//                        Locale.US,
+//                        "%sH passed / %sH To Complete",
+//                        profileViewModel.getPassHours().getValue(),
+//                        profileViewModel.getRemainHours().getValue());
+//                hoursStatusTextView.setText(s);
+//            } else {
+//                String s = String.format(
+//                        Locale.US,
+//                        "%sH passed ",
+//                        profileViewModel.getPassHours().getValue());
+//                hoursStatusTextView.setText(s);
+//            }
+//        });
 
 
         pictureProgressBar = root.findViewById(R.id.student_profile_pictureprogoressbar);
-        pictureProgressBar.setProgress(30);
 
         stateProgressBar = root.findViewById(R.id.student_profile_stateprogoressbar);
         stateProgressBar.setStateDescriptionData(descriptionData);
-        stateProgressBar.setStateDescriptionSize(12);
+        stateProgressBar.setStateDescriptionSize(10);
 
 
         root.findViewById(R.id.student_profile_send_msg_btn).setOnClickListener(this);

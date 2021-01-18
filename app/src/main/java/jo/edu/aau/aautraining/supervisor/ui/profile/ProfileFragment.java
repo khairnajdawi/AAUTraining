@@ -30,6 +30,7 @@ import jo.edu.aau.aautraining.shared.AppConstants;
 import jo.edu.aau.aautraining.shared.MyAppCompatActivity;
 import jo.edu.aau.aautraining.shared.MyFragment;
 import jo.edu.aau.aautraining.shared.MySharedPreference;
+import jo.edu.aau.aautraining.student.StudentMainActivity;
 import jo.edu.aau.aautraining.supervisor.SupervisorMainActivity;
 
 public class ProfileFragment extends MyFragment {
@@ -119,6 +120,7 @@ public class ProfileFragment extends MyFragment {
         super.onActivityCreated(savedInstanceState);
         SupervisorMainActivity activity = (SupervisorMainActivity) getActivity();
         getSupervisorInfo(activity.getSupervisorId());
+        ((SupervisorMainActivity) getActivity()).getHasNotifications();
     }
 
     private void getSupervisorInfo(int supervisorId) {
